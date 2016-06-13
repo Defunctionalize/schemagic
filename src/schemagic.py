@@ -17,7 +17,7 @@ def validate_sequence_template(schema, value):
 
 def validate_strict_sequence(schema, value):
     if not len(schema) == len(value):
-        raise ValueError("sequence has a different number of elements than its schema perscribes.  value: {0}, schema: {1}".format(value, schema))
+        raise ValueError("sequence has a different number of elements than its schema prescribes.  value: {0}, schema: {1}".format(value, schema))
     return map(lambda x, y: x(y), schema, value)
 
 is_map_template = lambda schema: isinstance(schema, collections.MutableMapping) and len(schema.items()) is 1 and not isinstance(schema.keys()[0], str)
