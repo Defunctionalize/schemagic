@@ -3,3 +3,5 @@
 build/
 dist/
 schemagic.egg-info/
+setup.py
+setup.cfg
