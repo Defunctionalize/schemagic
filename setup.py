@@ -1,4 +1,4 @@
-from distutils.core import setup
+from setuptools import setup
 setup(
   name = 'schemagic',
   packages = ['schemagic'], # this must be the same as the name above
