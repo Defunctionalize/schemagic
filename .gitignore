@@ -1,2 +1,5 @@
 *.idea
 *.pyc
+build/
+dist/
+schemagic.egg-info/

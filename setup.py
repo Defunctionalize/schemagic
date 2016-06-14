@@ -7,7 +7,7 @@ setup(
   author = 'Tyler Tolton',
   author_email = 'tjtolton@gmail.com',
   url = 'https://github.com/TJTolton/schemagic', # use the URL to the github repo
-  download_url = 'https://github.com/peterldowns/mypackage/tarball/0.1', # I'll explain this in a second
+  download_url = 'https://github.com/TJTolton/schemagic/tarball/0.1', # I'll explain this in a second
   keywords = ['schema', 'validator', 'validation', 'validate', 'json', 'webservice', 'schemata'], # arbitrary keywords
   classifiers = [],
 )
