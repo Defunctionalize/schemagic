@@ -26,10 +26,10 @@ is_sequence_template = lambda schema: isinstance(schema, collections.Sequence) a
 is_strict_sequence = lambda schema: isinstance(schema, collections.Sequence) and 1 < len(schema)
 
 validate_against_schema = multiple_dispatch_fn({
-        is_sequence_template: validate_sequence_template,
-        is_strict_sequence: validate_strict_sequence,
-        is_map_template: validate_map_template,
-        is_keyed_mapping: validate_keyed_mapping},
+    lambda schema, value: is_sequence_template(schema): validate_sequence_template,
+    lambda schema, value: is_strict_sequence(schema): validate_strict_sequence,
+    lambda schema, value: is_map_template(schema): validate_map_template,
+    lambda schema, value: is_keyed_mapping(schema): validate_keyed_mapping},
     default=lambda schema, value: schema(value))
 
 def test_validate_against_schema():
