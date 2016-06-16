@@ -1,7 +1,7 @@
 import copy
 import doctest
 from contextlib import contextmanager
-from functools import wraps
+from functools import wraps, update_wrapper
 
 import operator
 
@@ -22,7 +22,7 @@ def merge_with(fn, a, b):
             fresh_dict[k] = v
     return fresh_dict
 
-def multiple_dispatch_fn(dispatch_map, default=None):
+def multiple_dispatch_fn(name, dispatch_map, default=None):
     """
     creates a multiple dispatch function.
 
@@ -61,7 +61,17 @@ def multiple_dispatch_fn(dispatch_map, default=None):
             return dispatch_fn(*args, **kwargs)
         except StopIteration:
             raise ValueError("No dispatch function found. args: {0}, kwargs: {1}".format(args, kwargs))
+    _fn.__name__ = name
     return _fn
+
+def separate_dict(initial_dict, *keys_to_remove):
+    """returns 2 new dicts, one with some keys removed, and another with only those keys"""
+    part1_keys, part2_keys = copy.copy(initial_dict), {}
+    for key, val in part1_keys.items():
+        if key in keys_to_remove:
+            part2_keys[key] = val
+            del part1_keys[key]
+    return part1_keys, part2_keys
 
 @contextmanager
 def assert_raises(expected_error=None):

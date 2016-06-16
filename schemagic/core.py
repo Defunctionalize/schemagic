@@ -25,7 +25,7 @@ is_keyed_mapping = lambda schema: isinstance(schema, collections.MutableMapping)
 is_sequence_template = lambda schema: isinstance(schema, collections.Sequence) and len(schema) is 1
 is_strict_sequence = lambda schema: isinstance(schema, collections.Sequence) and 1 < len(schema)
 
-validate_against_schema = multiple_dispatch_fn({
+validate_against_schema = multiple_dispatch_fn( "validate_against_schema", {
     lambda schema, value: is_sequence_template(schema): validate_sequence_template,
     lambda schema, value: is_strict_sequence(schema): validate_strict_sequence,
     lambda schema, value: is_map_template(schema): validate_map_template,
