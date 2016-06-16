@@ -11,10 +11,30 @@ test_cases = {
             dict(schema=[int],
                  value=5,
                  result=TypeError),
-        "successfully returning unmodified list of ints":
+        "returning unmodified list of ints when validating [int] template sequence":
             dict(schema=[int],
                  value=[5, 6],
                  result=[5, 6]),
+        "validating with str function with correct data":
+            dict(schema=str,
+                 value="hello",
+                 result="hello"),
+        "validating with int function with incorrect data":
+            dict(schema=int,
+                 value="hello",
+                 result=ValueError),
+        "validating map template with correct data":
+            dict(schema={int: str},
+                 value= {1: "hello", 2: "world"},
+                 result= {1: "hello", 2: "world"}),
+        "validating strict sequence with good data":
+            dict(schema=[int, int],
+                 value=[1, 2],
+                 result=[1, 2]),
+        "validating strict sequence with bad data":
+            dict(schema=[int, int],
+                 value=[1],
+                 result=ValueError),
     },
     formatted_string:{
         "throwing error when incorrectly formatted string passed as data":
