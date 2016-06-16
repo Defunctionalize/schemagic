@@ -1,4 +1,6 @@
 import collections
+from functools import partial
+
 from utils import merge_with, multiple_dispatch_fn
 
 def validate_map_template(schema, value):
@@ -31,3 +33,18 @@ validate_against_schema = multiple_dispatch_fn( "validate_against_schema", {
     lambda schema, value: is_map_template(schema): validate_map_template,
     lambda schema, value: is_keyed_mapping(schema): validate_keyed_mapping},
     default=lambda schema, value: schema(value))
+
+def validator(schema, message, coerce_data=True, data=None):
+    if data is None:
+        return partial(validator, schema, message, coerce_data)
+    try:
+        coerced_and_validated_data = validate_against_schema(schema, data)
+        return coerced_and_validated_data if coerce_data else data
+    except Exception as e:
+        message_details = {
+            "subject": message,
+            "error": "{0}: {1}".format(e.__class__.__name__, e),
+            "value": data,
+            "schema": schema
+        }
+        raise ValueError("Bad value provided for {subject}. - error: {error} schema: {schema} value: {value}".format(**message_details))

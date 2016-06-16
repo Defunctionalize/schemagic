@@ -1,26 +1,11 @@
 from functools import partial, wraps
 
-from schemagic.core import validate_against_schema
+from schemagic.core import validate_against_schema, validator
 from schemagic.validators import date_string
 
 ALWAYS = lambda: True
 WHEN_DEBUGGING = lambda: __debug__
 IDENTITY = lambda x: x
-
-def validator(schema, message, coerce_data=True, data=None):
-    if data is None:
-        return partial(validator, schema, message, coerce_data)
-    try:
-        coerced_and_validated_data = validate_against_schema(schema, data)
-        return coerced_and_validated_data if coerce_data else data
-    except Exception as e:
-        message_details = {
-            "subject": message,
-            "error": "{0}: {1}".format(e.__class__.__name__, e),
-            "value": data,
-            "schema": schema
-        }
-        raise ValueError("Bad value provided for {subject}. - error: {error} schema: {schema} value: {value}".format(**message_details))
 
 def validated(validation_predicate=None, coerce_data=True, input_schema=None, output_schema=None, fn=None):
     if fn is None:
