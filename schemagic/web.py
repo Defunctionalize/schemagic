@@ -1,11 +1,9 @@
 import json
-from functools import partial, wraps, update_wrapper
-
+from functools import partial, update_wrapper
 import collections
 
-import flask
-from flask.app import Flask
 from flask.globals import request
+from flask.wrappers import Response
 
 from schemagic.core import validate_against_schema, validator
 from schemagic.utils import multiple_dispatch_fn
@@ -20,15 +18,35 @@ dispatch_to_fn = multiple_dispatch_fn("dispatch_to_fn",{
 })
 
 
+def process_error(exception):
+    if "input" in exception.message:
+        return Response(
+            response=exception,
+            status=400
+        )
+    return Response(
+        status=500,
+        response=exception
+    )
+
+
 def webservice_fn(fn, validation_predicate, input_validator, output_validator):
-    validate = validation_predicate()
-    return reduce(lambda x, y: y(x),[
-        json.loads,
-        partial(validate_against_schema, input_validator) if validate else IDENTITY,
-        partial(dispatch_to_fn, fn),
-        partial(validate_against_schema, output_validator) if validate else IDENTITY,
-        json.dumps
-    ], request.data)
+    try:
+        validate = validation_predicate()
+        return Response(
+            response= reduce(lambda x, y: y(x),[
+                json.loads,
+                partial(validate_against_schema, input_validator) if validate else IDENTITY,
+                partial(dispatch_to_fn, fn),
+                partial(validate_against_schema, output_validator) if validate else IDENTITY,
+                json.dumps
+            ], request.data),
+            status=200,
+            mimetype="application/json"
+        )
+    except Exception as e:
+        return process_error(e)
+
 
 def service_route(service, validation_pred=None, coerce_data=True, rule=None, input_schema=None, output_schema=None, fn=None):
     if not rule:
