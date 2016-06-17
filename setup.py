@@ -24,5 +24,4 @@ if __name__ == "__main__":
         author_email=AUTHOR_EMAIL,
         keywords=KEYWORDS,
         packages=PACKAGES,
-        zip_safe=False,
     )

@@ -1,7 +1,6 @@
 import re
 from functools import partial
 
-
 def predicate_validator(predicate, coercer=None, message=None, data=None):
     if data is None:
         return partial(predicate_validator, predicate, coercer, message)
