@@ -49,3 +49,7 @@ def service_route(service, validation_pred=None, coerce_data=True, rule=None, in
     return fn
 
 
+def service_registry(service, validation_pred=None, coerce_data=True, *service_definitions):
+    if not service_definitions:
+        return partial(service_registry, service, validation_pred, coerce_data)
+    map(lambda definition: service_route(service, validation_pred, coerce_data, **definition), service_definitions)
