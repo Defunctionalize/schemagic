@@ -315,14 +315,20 @@ Lets see an adapted version of this code using schemagic.web utilities.
 
     register_fibonnacci_services(
         dict(rule="/fibonacci",
-             input_schema=int,
+             input_schema={"n" : int},
              output_schema=int,
              fn=fib))
 
     if __name__ == '__main__':
         app.run(port=5000)
 
-There, now we simply *describe* our service with data.  What is the service endpoint, what is the input, what is the output,
+There, now we simply *describe* our service with data.
+What is the service endpoint, what is the input, what is the output,
 and what is the implementation that delivers the contract defined herein.
 
+Important notes:
+
+#. The webservices all uniformally use POST requests to transmit data.  The data supplied to the endpoints comes from the payload of the request.
+#. Regarding the above example, there are alternate ways of describing the input to fib().  We could have said "input_schema=int", which would imply that the POST request payload should be an int, unwrapped.
+    the notation used in the example requires the POST request to provide its data via keyword.
 
