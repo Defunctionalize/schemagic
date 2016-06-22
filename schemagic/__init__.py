@@ -1,5 +1,4 @@
-import core
-import sys
-sys.modules['core'] = core
-
-from core import *
+try:
+    from core import *
+except ImportError:
+    from .core import *
