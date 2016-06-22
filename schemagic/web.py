@@ -49,9 +49,9 @@ def webservice_fn(fn, input_validator, output_validator):
 
 def service_route(service, validation_pred=None, coerce_data=True, rule=None, input_schema=None, output_schema=None, fn=None):
     if not rule:
-        return partial(service_route, service, validation_pred, coerce_data)
+        return update_wrapper(partial(service_route, service, validation_pred, coerce_data), service_route)
     if fn is None:
-        return partial(service_route, service, validation_pred, coerce_data, rule, input_schema, output_schema)
+        return update_wrapper(partial(service_route, service, validation_pred, coerce_data, rule, input_schema, output_schema), service_route)
 
     validation_pred = validation_pred or WHEN_DEBUGGING
     input_validator = validator(input_schema or IDENTITY, "input to endpoint {0}".format(rule), validation_predicate=validation_pred, coerce_data=coerce_data)
@@ -68,5 +68,5 @@ def service_route(service, validation_pred=None, coerce_data=True, rule=None, in
 
 def service_registry(service, validation_pred=None, coerce_data=True, *service_definitions):
     if not service_definitions:
-        return partial(service_registry, service, validation_pred, coerce_data)
+        return update_wrapper(partial(service_registry, service, validation_pred, coerce_data), service_registry)
     map(lambda definition: service_route(service, validation_pred, coerce_data, **definition), service_definitions)
