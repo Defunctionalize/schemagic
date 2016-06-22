@@ -11,7 +11,7 @@ def validate_map_template(schema, value):
     return dict(map(validate_key_val_pair, value.keys(), value.values()))
 
 def validate_keyed_mapping(schema, value):
-    missing_keys = set(schema.keys()) - set(value.key())
+    missing_keys = set(schema.keys()) - set(value.keys())
     if missing_keys:
         raise ValueError("Missing keys {0} for value {1}".format(missing_keys, value))
     return merge_with(validate_against_schema, schema, value)
