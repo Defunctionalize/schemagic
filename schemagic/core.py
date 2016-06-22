@@ -3,6 +3,8 @@ from functools import partial
 
 from utils import merge_with, multiple_dispatch_fn
 
+WHEN_DEBUGGING = lambda: __debug__
+
 def validate_map_template(schema, value):
     key_schema, value_schema = schema.items()[0]
     validate_key_val_pair = lambda key, val: (validate_against_schema(key_schema, key), validate_against_schema(value_schema, val))
@@ -34,15 +36,18 @@ validate_against_schema = multiple_dispatch_fn( "validate_against_schema", {
     lambda schema, value: is_keyed_mapping(schema): validate_keyed_mapping},
     default=lambda schema, value: schema(value))
 
-def validator(schema, message, coerce_data=True, data=None):
+def validator(schema, subject_name_str, validation_predicate=None, coerce_data=True, data=None):
     if data is None:
-        return partial(validator, schema, message, coerce_data)
+        return partial(validator, schema, subject_name_str, validation_predicate, coerce_data)
+    validation_predicate = validation_predicate or WHEN_DEBUGGING
+    if not validation_predicate():
+        return data
     try:
         coerced_and_validated_data = validate_against_schema(schema, data)
         return coerced_and_validated_data if coerce_data else data
     except Exception as e:
         message_details = {
-            "subject": message,
+            "subject": subject_name_str,
             "error": "{0}: {1}".format(e.__class__.__name__, e),
             "value": data,
             "schema": schema
