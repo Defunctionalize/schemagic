@@ -32,13 +32,12 @@ def process_error(exception):
 
 def webservice_fn(fn, validation_predicate, input_validator, output_validator):
     try:
-        validate = validation_predicate()
         return Response(
             response= reduce(lambda x, y: y(x),[
                 json.loads,
-                partial(validate_against_schema, input_validator) if validate else IDENTITY,
+                partial(validate_against_schema, input_validator),
                 partial(dispatch_to_fn, fn),
-                partial(validate_against_schema, output_validator) if validate else IDENTITY,
+                partial(validate_against_schema, output_validator),
                 json.dumps
             ], request.data),
             status=200,
@@ -55,8 +54,8 @@ def service_route(service, validation_pred=None, coerce_data=True, rule=None, in
         return partial(service_route, service, validation_pred, coerce_data, rule, input_schema, output_schema)
 
     validation_pred = validation_pred or WHEN_DEBUGGING
-    input_validator = validator(input_schema or IDENTITY, "input to endpoint {0}".format(rule), coerce_data)
-    output_validator = validator(output_schema or IDENTITY, "output from endpoint {0}".format(rule), coerce_data)
+    input_validator = validator(input_schema or IDENTITY, "input to endpoint {0}".format(rule), validation_predicate=validation_pred, coerce_data=coerce_data)
+    output_validator = validator(output_schema or IDENTITY, "output from endpoint {0}".format(rule), validation_predicate=validation_pred, coerce_data=coerce_data)
 
     service.add_url_rule(
         rule=rule,
