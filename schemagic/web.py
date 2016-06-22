@@ -13,24 +13,24 @@ WHEN_DEBUGGING = lambda: __debug__
 IDENTITY = lambda x: x
 
 dispatch_to_fn = multiple_dispatch_fn("dispatch_to_fn",{
+    lambda fn, args: isinstance(args, basestring): lambda fn, arg_list: fn(arg_list),
     lambda fn, args: isinstance(args, collections.Sequence): lambda fn, arg_list: fn(*arg_list),
-    lambda fn, args: isinstance(args, collections.MutableMapping): lambda fn, arg_list: fn(**arg_list)
-})
+    lambda fn, args: isinstance(args, collections.MutableMapping): lambda fn, arg_list: fn(**arg_list)},
+    default= lambda fn, arg_list: fn(arg_list)
+)
 
 
 def process_error(exception):
     if "input" in exception.message:
         return Response(
             response=exception,
-            status=400
-        )
+            status=400)
     return Response(
         status=500,
-        response=exception
-    )
+        response=exception)
 
 
-def webservice_fn(fn, validation_predicate, input_validator, output_validator):
+def webservice_fn(fn, input_validator, output_validator):
     try:
         return Response(
             response= reduce(lambda x, y: y(x),[
@@ -60,7 +60,7 @@ def service_route(service, validation_pred=None, coerce_data=True, rule=None, in
     service.add_url_rule(
         rule=rule,
         endpoint=fn.__name__ if hasattr(fn, "__name__") else rule,
-        view_func=update_wrapper(lambda: webservice_fn(fn, validation_pred, input_validator, output_validator), fn),
+        view_func=update_wrapper(lambda: webservice_fn(fn, input_validator, output_validator), fn),
         methods=['POST']
     )
     return fn
