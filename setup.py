@@ -2,7 +2,7 @@ from setuptools import setup
 
 NAME = 'schemagic'
 PACKAGES = ['schemagic']
-VERSION = '0.3.1'
+VERSION = '0.3.2'
 LICENSE = "LGPL"
 DESCRIPTION = 'Define the shape of your data with simple python data structures. Use those data descriptions to validate your application.'
 AUTHOR = 'Tyler Tolton'
