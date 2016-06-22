@@ -1,7 +1,7 @@
 import collections
 from functools import partial
 
-from utils import merge_with, multiple_dispatch_fn
+from schemagic.utils import merge_with, multiple_dispatch_fn
 
 WHEN_DEBUGGING = lambda: __debug__
 

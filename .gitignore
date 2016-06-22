@@ -4,3 +4,5 @@ build/
 dist/
 schemagic.egg-info/
 schemagic/scratch.py
+does-it-work/
+schemagic/__pycache__/
