@@ -36,7 +36,7 @@ validate_against_schema = multiple_dispatch_fn( "validate_against_schema", {
     lambda schema, value: is_keyed_mapping(schema): validate_keyed_mapping},
     default=lambda schema, value: schema(value))
 
-def validator(schema, subject_name_str, validation_predicate=None, coerce_data=True, data=None):
+def validator(schema, subject_name_str, validation_predicate=None, coerce_data=False, data=None):
     if data is None:
         return partial(validator, schema, subject_name_str, validation_predicate, coerce_data)
     validation_predicate = validation_predicate or WHEN_DEBUGGING
