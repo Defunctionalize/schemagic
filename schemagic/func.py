@@ -7,21 +7,22 @@ ALWAYS = lambda: True
 WHEN_DEBUGGING = lambda: __debug__
 IDENTITY = lambda x: x
 
+"""
+NOTE EVERYTHING IN THIS FILE IS EXPERIMENTAL.  DO NOT EXPECT STABILITY OR USABILITY IN CURRENT FORM
+"""
+
 def validated(validation_predicate=None, coerce_data=True, input_schema=None, output_schema=None, fn=None):
     if fn is None:
         return partial(validated, validation_predicate, coerce_data, input_schema, output_schema)
 
     validation_predicate = validation_predicate or WHEN_DEBUGGING
-    input_validator = validator(input_schema or IDENTITY, "input to function {0}".format(fn.__name__), coerce_data)
-    output_validator = validator(output_schema or IDENTITY, "output from function {0}".format(fn.__name__), coerce_data)
+    input_validator = validator(input_schema or IDENTITY, "input to function {0}".format(fn.__name__), validation_predicate=validation_predicate, coerce_data=coerce_data)
+    output_validator = validator(output_schema or IDENTITY, "output from function {0}".format(fn.__name__), validation_predicate=validation_predicate, coerce_data=coerce_data)
 
     @wraps(fn)
     def _fn(*args, **kwargs):
-        if validation_predicate():
-            validated_args, validated_kwargs = validate_function_input(input_validator, args, kwargs)
-            return output_validator(fn(*validated_args, **validated_kwargs))
-        else:
-            return fn(*args, **kwargs)
+        validated_args, validated_kwargs = validate_function_input(input_validator, args, kwargs)
+        return output_validator(fn(*validated_args, **validated_kwargs))
     return _fn
 
 def validate_function_input(input_validator, arg_list, kwarg_dict):
@@ -40,14 +41,3 @@ def validate_function_input(input_validator, arg_list, kwarg_dict):
     else:
         args, kwargs = arg_list, kwarg_dict
     return args, kwargs
-
-if __name__ == '__main__':
-    import operator
-
-    my_validator = partial(validated, ALWAYS)
-
-    @my_validator(input_schema=[int], output_schema=[date_string])
-    def sum_things(*numbers):
-        return reduce(operator.add, numbers)
-
-    print sum_things(1,2,3)
