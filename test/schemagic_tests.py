@@ -1,9 +1,12 @@
 from collections import defaultdict
 from pprint import pprint
+from unittest.case import TestCase
+
+import itertools
 
 from schemagic.core import validate_against_schema
 from schemagic.utils import separate_dict
-from schemagic.validators import formatted_string
+from schemagic.validators import formatted_string, null, or_, enum
 
 test_cases = {
     validate_against_schema: {
@@ -36,20 +39,39 @@ test_cases = {
                  value=[1],
                  result=ValueError),
     },
-    formatted_string:{
+    formatted_string(r"\d+"):{
         "throwing error when incorrectly formatted string passed as data":
-            dict(format=r'\d+',
-                 data="not a digit",
+            dict(data="not a digit",
                  result=ValueError
             ),
         "returning string when properly formatted":
-            dict(format=r'\d+',
-                 data="112233",
+            dict(data="112233",
                  result="112233"),
         "stringifing data before checking - and returning as string":
-            dict(format=r'\d+',
-                 data=112233,
+            dict(data=112233,
                  result="112233")
+    },
+    null:{
+        "throws error when recieves string":
+            dict(data="hello",
+                 result=ValueError)
+    },
+    or_(int, float):{
+        "allowing ints":
+            dict(data=10,
+                 result=10),
+        "allowing floats":
+            dict(data=10.5,
+                 result=10.5),
+        "throwing error when passed string":
+            dict(data="hello",
+                 result=ValueError)
+    },
+    enum("Hello", 5):{
+        "allowing string \"Hello\"": dict(data="Hello", result="Hello"),
+        "allowing int 5": dict(data=5, result=5),
+        "rejecting int 6": dict(data=6, result=ValueError),
+        "rejecting string \"World\"": dict(data="World", result=ValueError)
     }
 }
 
@@ -70,5 +92,6 @@ def run_tests(test_cases):
             test_results[test_fn.__name__].append(test_result == expected_result or "Not {0} as expected. expected: {1} got: {2}".format(test_motivation, expected_result, test_result))
     return test_results
 
-if __name__ == '__main__':
-    map(pprint, run_tests(test_cases).items())
+class SchemagicTests(TestCase):
+    def test_all_test_cases_passing(self):
+        self.assertTrue(all(itertools.chain.from_iterable(run_tests(test_cases).values())))

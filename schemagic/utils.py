@@ -1,7 +1,7 @@
 import copy
 import doctest
 from contextlib import contextmanager
-from functools import wraps, update_wrapper
+from functools import wraps, update_wrapper, partial
 
 import operator
 
@@ -21,6 +21,9 @@ def merge_with(fn, a, b):
         else:
             fresh_dict[k] = v
     return fresh_dict
+
+merge = partial(merge_with, lambda a, b: b)
+merge.__name__ = "merge"
 
 def multiple_dispatch_fn(name, dispatch_map, default=None):
     """
