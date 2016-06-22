@@ -49,7 +49,7 @@ But enough talk.  Lets build a schema and start using it.
       ...
     ValueError: invalid literal for int() with base 10: 'hello'
 
-The error you see here (customizeable) is the error you get when you try to call
+The error you see here (customizeable) is the error you get when you try to call:
 
 .. code-block:: python
 
@@ -58,7 +58,7 @@ The error you see here (customizeable) is the error you get when you try to call
       ...
     ValueError: invalid literal for int() with base 10: 'hello'
 
-And it occured because list_of_ints specified that the function to check every member of the list was int
+And it occurred because list_of_ints specified that the function to check every member of the list against was int()
 
 
 Basic Schemagic Usage
@@ -117,7 +117,7 @@ Schema checking is quite flexible, and all checks are done recursively.  Lets go
     TypeError: expected Nonetype, got hello
 
 
-**Compose Schema Definitions Recursively Ad Nauseam**
+**Compose Schema Definitions Recursively Ad Nauseam**:
 *this is where the real value lies*
 
 .. code-block:: python
@@ -148,7 +148,7 @@ Schema checking is quite flexible, and all checks are done recursively.  Lets go
 Schemagic.validator Usage
 -------------------------
 
-**Use the Schemagic.validator for increased message clarity and control**
+**Use the Schemagic.validator for increased message clarity and control**:
 *implemented using the "Function Validator"*
 
 .. code-block:: python
@@ -159,7 +159,7 @@ Schemagic.validator Usage
       ...
     ValueError: Bad value provided for Business Type: list of integers. - error: ValueError: invalid literal for int() with base 10: 'not an int' schema: [<type 'int'>] value: [1, 'not an int', 3]
 
-**Supply predicate to prevent/enable validation conditionally**
+**Supply predicate to prevent/enable validation conditionally**:
 
 .. code-block:: python
 
@@ -177,7 +177,7 @@ Schemagic.validator Usage
     [1, "not an int", 3]
 
 
-**Coerce data as it is validated**
+**Coerce data as it is validated**:
 *note: validate against schema*
 
 .. code-block:: python
@@ -203,7 +203,7 @@ the furnace in which schemagic was forged.  Get ready to outsource yourself.
 To demo the schemagic.web workflow, lets assume the roles of the first people in the world to discover a way
 to (gasp) compute the fibonacci sequence in python.
 
-*note: this code is all pulled from Peter Norvig's excellent `Design of Computer Programs Udacity Class <https://www.udacity.com/course/design-of-computer-programs--cs212>`_.*
+*note: this code is all pulled from Peter Norvig's excellent* `Design of Computer Programs  <https://www.udacity.com/course/design-of-computer-programs--cs212>`_ *Udacity class.*
 
 .. code-block:: python
 
