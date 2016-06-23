@@ -1,3 +1,4 @@
+import functools
 import json
 from functools import partial, update_wrapper
 import collections
@@ -33,7 +34,7 @@ def process_error(exception):
 def webservice_fn(fn, input_validator, output_validator):
     try:
         return Response(
-            response= reduce(lambda x, y: y(x),[
+            response= functools.reduce(lambda x, y: y(x),[
                 json.loads,
                 partial(validate_against_schema, input_validator),
                 partial(dispatch_to_fn, fn),

@@ -1,5 +1,6 @@
 import copy
 import doctest
+import functools
 from contextlib import contextmanager
 from functools import wraps, update_wrapper, partial
 
@@ -78,7 +79,7 @@ def separate_dict(initial_dict, *keys_to_remove):
         if key in keys_to_remove:
             part2[key] = val
 
-    return reduce(remove_key, part2.keys(), part1), part2
+    return functools.reduce(remove_key, part2.keys(), part1), part2
 
 @contextmanager
 def assert_raises(expected_error=None):
