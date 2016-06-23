@@ -67,14 +67,18 @@ def multiple_dispatch_fn(name, dispatch_map, default=None):
     _fn.__name__ = name
     return _fn
 
+def remove_key(dict_, key):
+    del dict_[key]
+    return dict_
+
 def separate_dict(initial_dict, *keys_to_remove):
     """returns 2 new dicts, one with some keys removed, and another with only those keys"""
-    part1_keys, part2_keys = copy.copy(initial_dict), {}
-    for key, val in part1_keys.items():
+    part1, part2 = copy.copy(initial_dict), {}
+    for key, val in part1.items():
         if key in keys_to_remove:
-            part2_keys[key] = val
-            del part1_keys[key]
-    return part1_keys, part2_keys
+            part2[key] = val
+
+    return reduce(remove_key, part2.keys(), part1), part2
 
 @contextmanager
 def assert_raises(expected_error=None):
