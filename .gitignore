@@ -11,3 +11,4 @@ schemagic-env/
 test/__pycache__/
 .cache/
 .tox/
+.eggs/
