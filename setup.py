@@ -1,16 +1,17 @@
 from setuptools import setup
 from setuptools.command.test import test as TestCommand
+import schemagic
 import sys
 
 
-NAME = 'schemagic'
+NAME = schemagic.__name__
 PACKAGES = ['schemagic']
-VERSION = '0.3.24'
-LICENSE = "LGPL"
-DESCRIPTION = 'Define the shape of your data with simple python data structures. Use those data descriptions to validate your application.'
-AUTHOR = 'Tyler Tolton'
-AUTHOR_EMAIL = 'tjtolton@gmail.com'
-URL = 'https://github.com/TJTolton/schemagic'
+VERSION = schemagic.__version__
+LICENSE = schemagic.__license__
+DESCRIPTION = schemagic.__description__
+AUTHOR = schemagic.__author__
+AUTHOR_EMAIL = schemagic.__authoremail__
+URL = schemagic.__url__
 KEYWORDS = ['schema', 'schemas', 'schemata',
           'validate', 'validation', 'validator'
           'json', 'REST', 'webservice', 'flask', 'POST'
