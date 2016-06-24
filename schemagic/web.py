@@ -96,7 +96,10 @@ def service_route(service, validation_pred=None, coerce_data=True, rule=None, in
         using the canonical flask pattern, e.g. @my_service_route("/this-route") it would have caused everything to
         explode.  To get consistent behavior, you MUST specify the arguments by keyword.
 
-    :param service: The flask service which is to have the rule added to it.
+    :param service: The service or app which is to have the rule added to it. Must support the `add_url_rule` interface
+        as described in the `flask documentation`_.
+        .. _`flask documentation`: http://flask.pocoo.org/docs/0.11/api/
+
     :param validation_pred: see description in `validator` fn of the same param.  function that returns true or false
         The default value for validation on webservice routes is to use the value of __debug__ as a guide.
     :param coerce_data: see description in `validator` fn of the same param.  boolean flag for coercing data.
@@ -130,11 +133,12 @@ def service_route(service, validation_pred=None, coerce_data=True, rule=None, in
 def service_registry(service, validation_pred=None, coerce_data=True, *service_definitions):
     """Registers all the service descriptions provided on the app specified by the `service` parameter.
 
-    :param service:
-    :param validation_pred:
-    :param coerce_data:
-    :param service_definitions:
-    :return: if service definitions not provided, returns the
+    :param service: Service to register functions on. see description of same parameter in `service_route` documentation.
+    :param validation_pred: function returning boolean. see description of same parameter in `service_route` documentation.
+    :param coerce_data: boolean. see description of same parameter in `service_route` documentation.
+    :param service_definitions: mappings that contain the keyword args to service_route.
+    :return: if service definitions not provided, returns the a function that accepts service definitions.
+            if service definitions provided, returns nothing.
     """
     if not service_definitions:
         return update_wrapper(partial(service_registry, service, validation_pred, coerce_data), service_registry)
