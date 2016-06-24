@@ -29,12 +29,13 @@ is_keyed_mapping = lambda schema: isinstance(schema, collections.MutableMapping)
 is_sequence_template = lambda schema: isinstance(schema, collections.Sequence) and len(schema) is 1
 is_strict_sequence = lambda schema: isinstance(schema, collections.Sequence) and 1 < len(schema)
 
-validate_against_schema = multiple_dispatch_fn( "validate_against_schema", {
+validate_against_schema = multiple_dispatch_fn({
     lambda schema, value: is_sequence_template(schema): validate_sequence_template,
     lambda schema, value: is_strict_sequence(schema): validate_strict_sequence,
     lambda schema, value: is_map_template(schema): validate_map_template,
     lambda schema, value: is_keyed_mapping(schema): validate_keyed_mapping},
     default=lambda schema, value: schema(value))
+validate_against_schema.__name__ = "validate_against_schema"
 
 def validator(schema, subject_name_str, validation_predicate=None, coerce_data=False, data=None):
     if data is None:

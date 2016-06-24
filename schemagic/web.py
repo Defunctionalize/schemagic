@@ -13,13 +13,13 @@ ALWAYS = lambda: True
 WHEN_DEBUGGING = lambda: __debug__
 IDENTITY = lambda x: x
 
-dispatch_to_fn = multiple_dispatch_fn("dispatch_to_fn",{
+dispatch_to_fn = multiple_dispatch_fn({
     lambda fn, args: isinstance(args, basestring): lambda fn, arg_list: fn(arg_list),
     lambda fn, args: isinstance(args, collections.Sequence): lambda fn, arg_list: fn(*arg_list),
     lambda fn, args: isinstance(args, collections.MutableMapping): lambda fn, arg_list: fn(**arg_list)},
     default= lambda fn, arg_list: fn(arg_list)
 )
-
+dispatch_to_fn.__name__ = "dispatch_to_fn"
 
 def process_error(exception):
     if "input" in exception.message:

@@ -26,7 +26,7 @@ def merge_with(fn, a, b):
 merge = partial(merge_with, lambda a, b: b)
 merge.__name__ = "merge"
 
-def multiple_dispatch_fn(name, dispatch_map, default=None):
+def multiple_dispatch_fn(dispatch_map, default=None):
     """
     creates a multiple dispatch function.
 
@@ -65,7 +65,6 @@ def multiple_dispatch_fn(name, dispatch_map, default=None):
             return dispatch_fn(*args, **kwargs)
         except StopIteration:
             raise ValueError("No dispatch function found. args: {0}, kwargs: {1}".format(args, kwargs))
-    _fn.__name__ = name
     return _fn
 
 def remove_key(dict_, key):
