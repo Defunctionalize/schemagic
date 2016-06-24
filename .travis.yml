@@ -4,5 +4,6 @@ python:
     - "3.4"
 install:
     - "pip install coverage"
+    - "pip install virtualenv"
 script:
     - "coverage run --source=schemagic setup.py test"
