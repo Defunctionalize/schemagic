@@ -64,18 +64,18 @@ validate_against_schema.__doc__ = \
     """Ensures that the data is valid with the given schema
 
     :param schema: A data definition.  This definition can take any of 5 forms --
-    #. **function**: the function will be called fn(data) and expected to return the data, if correct, or throw an error
-    #. **map template**:  a dict with one item, where both the key and value are data definitions, e.g. {int: [str]}
-    #. **keyed mapping**: A map of strings to data definitions, e.g. {"name": str, "age": int}
-    #. **sequence template**: A one element sequence, where the element is a data definition, e.g. [int] or [{str: int}]
-    #. **strict sequence**: A sequence of data definitions, e.g. [int, {str:int}, [str, int, int], {"age": int}]
+        #. **function**: the function will be called fn(data) and expected to return the data, if correct, or throw an error
+        #. **map template**:  a dict with one item, where both the key and value are data definitions, e.g. {int: [str]}
+        #. **keyed mapping**: A map of strings to data definitions, e.g. {"name": str, "age": int}
+        #. **sequence template**: A one element sequence, where the element is a data definition, e.g. [int] or [{str: int}]
+        #. **strict sequence**: A sequence of data definitions, e.g. [int, {str:int}, [str, int, int], {"age": int}]
 
-    Notable things that do **not** count as data definitions include primitive data such as strings, integers, or bools.
-    These data could be used as components of data definition, but should not be used alone in places that expect
-    data definitions.  For instance ["hello"] is not a valid sequence template, because the element in it is not a data
-    definition.
+        Notable things that do **not** count as data definitions include primitive data such as strings, integers, or bools.
+        These data could be used as components of data definition, but should not be used alone in places that expect
+        data definitions.  For instance ["hello"] is not a valid sequence template, because the element in it is not a data
+        definition.
 
-    I suppose you could also compose custom classes into your data definitions if you wanted.  you heathen. ;)
+        I suppose you could also compose custom classes into your data definitions if you wanted.  you heathen. ;)
 
     :param value: Any data which will be checked to make sure it matches the prescribed pattern
     :return: The data after it has been run through its validators.
@@ -83,6 +83,25 @@ validate_against_schema.__doc__ = \
 
 
 def validator(schema, subject_name_str, validation_predicate=None, coerce_data=False, data=None):
+    """Creates a validation function which conditionally applies validation and coercion to data
+
+    :param schema: a data definition as described in the function `validate_against_schema`
+    :param subject_name_str: a string which will be passed into the error message if validation fails
+        an example of an error message with subject_name_str="My Business Type":
+        ValueError: Bad value provided for My Business Type. - error: <some error> schema: <the schema> value: <the val>"
+
+    :param validation_predicate: a function that takes no arguments and returns a boolean.  This will be called before
+        validation occurs.  If it returns False, validation will be skipped.
+    :param coerce_data: True or False - indicates whether the validator should return the output of applying
+        validate_against_schema to the data, or simply return the original data.
+        **NOTE**: if your validator applies functions that mutate their inputs, the data may be altered regardless of the
+            value of this parameter.  Mutable state.  Not even once.
+    :param data: The data which will ultimately be passed into the validator.
+    :return: when data is not supplied - returns a validator function (i.e. it returns a copy of validator with all
+            arguments supplied except data)
+        when data is supplied: returns data (possibly modified, depending on the value of `coerce_data`) if the data
+            is valid with the given schema, else throws a ValueError.
+    """
     if data is None:
         return partial(validator, schema, subject_name_str, validation_predicate, coerce_data)
     validation_predicate = validation_predicate or WHEN_DEBUGGING
