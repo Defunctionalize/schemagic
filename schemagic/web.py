@@ -20,6 +20,22 @@ dispatch_to_fn = multiple_dispatch_fn({
     default= lambda fn, arg_list: fn(arg_list)
 )
 dispatch_to_fn.__name__ = "dispatch_to_fn"
+dispatch_to_fn.__doc__ =\
+    """Dispatches a json object to a function.  The way the data is applied depends on the structure of the data.
+    #. if the data is a sequence, it will unpack it and pass each item into the function, i.e. it will use *args
+    #. if the data is a mapping, it will unpack it and pass in the items as keywords, i.e. it will use **kwargs
+    #. if the data is anything else (i.e. it is a primitive, non iterable), it will pass it in directly.
+
+    **NOTE** an important "gotcha" of this implementation is that a function that expects a single, iterable object
+        will have to have its argument passed to it by keyword.  This causes a lot builtin functions in earlier versions
+        of python to be ineligible for this kind of dispatch.  For instance, the sum function in 2.7 takes a single
+        iterable argument, and that argument can not be passed by keyword.  as such, this function can not be used
+        to dispatch json to the sum function in 2.7
+
+    :param fn: the function which is to recieve the values from the arg data
+    :param args: a data structure (usually rehydrated json) that is to be applied piecemeal to the function. see
+        rules presented above.
+    """
 
 def process_error(exception):
     if "input" in exception.message:
