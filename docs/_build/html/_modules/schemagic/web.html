@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>schemagic.web &mdash; schemagic 0.3 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="schemagic 0.3 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for schemagic.web</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">functools</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span><span class="p">,</span> <span class="n">update_wrapper</span>
+<span class="kn">import</span> <span class="nn">collections</span>
+
+<span class="kn">from</span> <span class="nn">flask.globals</span> <span class="kn">import</span> <span class="n">request</span>
+<span class="kn">from</span> <span class="nn">flask.wrappers</span> <span class="kn">import</span> <span class="n">Response</span>
+
+<span class="kn">from</span> <span class="nn">schemagic.core</span> <span class="kn">import</span> <span class="n">validate_against_schema</span><span class="p">,</span> <span class="n">validator</span>
+<span class="kn">from</span> <span class="nn">schemagic.utils</span> <span class="kn">import</span> <span class="n">multiple_dispatch_fn</span>
+
+<span class="n">ALWAYS</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="bp">True</span>
+<span class="n">WHEN_DEBUGGING</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">__debug__</span>
+<span class="n">IDENTITY</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span>
+
+<span class="n">dispatch_to_fn</span> <span class="o">=</span> <span class="n">multiple_dispatch_fn</span><span class="p">({</span>
+    <span class="k">lambda</span> <span class="n">fn</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="nb">basestring</span><span class="p">):</span> <span class="k">lambda</span> <span class="n">fn</span><span class="p">,</span> <span class="n">arg_list</span><span class="p">:</span> <span class="n">fn</span><span class="p">(</span><span class="n">arg_list</span><span class="p">),</span>
+    <span class="k">lambda</span> <span class="n">fn</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">Sequence</span><span class="p">):</span> <span class="k">lambda</span> <span class="n">fn</span><span class="p">,</span> <span class="n">arg_list</span><span class="p">:</span> <span class="n">fn</span><span class="p">(</span><span class="o">*</span><span class="n">arg_list</span><span class="p">),</span>
+    <span class="k">lambda</span> <span class="n">fn</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">collections</span><span class="o">.</span><span class="n">MutableMapping</span><span class="p">):</span> <span class="k">lambda</span> <span class="n">fn</span><span class="p">,</span> <span class="n">arg_list</span><span class="p">:</span> <span class="n">fn</span><span class="p">(</span><span class="o">**</span><span class="n">arg_list</span><span class="p">)},</span>
+    <span class="n">default</span><span class="o">=</span> <span class="k">lambda</span> <span class="n">fn</span><span class="p">,</span> <span class="n">arg_list</span><span class="p">:</span> <span class="n">fn</span><span class="p">(</span><span class="n">arg_list</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">dispatch_to_fn</span><span class="o">.</span><span class="n">__name__</span> <span class="o">=</span> <span class="s2">&quot;dispatch_to_fn&quot;</span>
+<span class="n">dispatch_to_fn</span><span class="o">.</span><span class="n">__doc__</span> <span class="o">=</span>\
+    <span class="sd">&quot;&quot;&quot;Dispatches a json object to a function.  The way the data is applied depends on the structure of the data.</span>
+<span class="sd">    #. if the data is a sequence, it will unpack it and pass each item into the function, i.e. it will use *args</span>
+<span class="sd">    #. if the data is a mapping, it will unpack it and pass in the items as keywords, i.e. it will use **kwargs</span>
+<span class="sd">    #. if the data is anything else (i.e. it is a primitive, non iterable), it will pass it in directly.</span>
+
+<span class="sd">    **NOTE** an important &quot;gotcha&quot; of this implementation is that a function that expects a single, iterable object</span>
+<span class="sd">        will have to have its argument passed to it by keyword.  This causes a lot builtin functions in earlier versions</span>
+<span class="sd">        of python to be ineligible for this kind of dispatch.  For instance, the sum function in 2.7 takes a single</span>
+<span class="sd">        iterable argument, and that argument can not be passed by keyword.  as such, this function can not be used</span>
+<span class="sd">        to dispatch json to the sum function in 2.7</span>
+
+<span class="sd">    :param fn: the function which is to recieve the values from the arg data</span>
+<span class="sd">    :param args: a data structure (usually rehydrated json) that is to be applied piecemeal to the function. see</span>
+<span class="sd">        rules presented above.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<span class="k">def</span> <span class="nf">_process_error</span><span class="p">(</span><span class="n">exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Decomposition of the webservice fn handler.  returns 400 if the exception occurred in the input validation</span>
+
+<span class="sd">    :param exception: The Exception which occured as a part of processing the request</span>
+<span class="sd">    :return: a flask Response that more specifically identifies the cause of the problem.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="s2">&quot;input&quot;</span> <span class="ow">in</span> <span class="n">exception</span><span class="o">.</span><span class="n">message</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
+            <span class="n">response</span><span class="o">=</span><span class="n">exception</span><span class="p">,</span>
+            <span class="n">status</span><span class="o">=</span><span class="mi">400</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
+        <span class="n">status</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+        <span class="n">response</span><span class="o">=</span><span class="n">exception</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="webservice_fn"><a class="viewcode-back" href="../../schemagic.html#schemagic.web.webservice_fn">[docs]</a><span class="k">def</span> <span class="nf">webservice_fn</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">input_validator</span><span class="p">,</span> <span class="n">output_validator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Handles the minutia of pulling data from the request object and passing it into the function and validators</span>
+
+<span class="sd">    :param fn: the function which is supposed to fulfill the contract defined by the input and output schemata</span>
+<span class="sd">    :param input_validator: a `validator` as described in the core function of the same name</span>
+<span class="sd">    :param output_validator: a `validator` as described in the core function of the same name</span>
+<span class="sd">    :return: a json Flask Response that contains either the requested data or an error.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
+            <span class="n">response</span><span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">y</span><span class="p">(</span><span class="n">x</span><span class="p">),[</span>
+                <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">,</span>
+                <span class="n">partial</span><span class="p">(</span><span class="n">validate_against_schema</span><span class="p">,</span> <span class="n">input_validator</span><span class="p">),</span>
+                <span class="n">partial</span><span class="p">(</span><span class="n">dispatch_to_fn</span><span class="p">,</span> <span class="n">fn</span><span class="p">),</span>
+                <span class="n">partial</span><span class="p">(</span><span class="n">validate_against_schema</span><span class="p">,</span> <span class="n">output_validator</span><span class="p">),</span>
+                <span class="n">json</span><span class="o">.</span><span class="n">dumps</span>
+            <span class="p">],</span> <span class="n">request</span><span class="o">.</span><span class="n">data</span><span class="p">),</span>
+            <span class="n">status</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+            <span class="n">mimetype</span><span class="o">=</span><span class="s2">&quot;application/json&quot;</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_process_error</span><span class="p">(</span><span class="n">e</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="service_route"><a class="viewcode-back" href="../../schemagic.html#schemagic.web.service_route">[docs]</a><span class="k">def</span> <span class="nf">service_route</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">validation_pred</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">coerce_data</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">rule</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">input_schema</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">output_schema</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">fn</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Function decorator that registers a `webservice_fn` version of the function on the provided service.</span>
+
+<span class="sd">    Note that this function is used primarily to register functions en masse with the `service_registry` interface.</span>
+<span class="sd">    However, it can be used as a traditional decorator if desired. e.g.:</span>
+
+<span class="sd">    my_service_route = partial(service_route, my_service)</span>
+
+<span class="sd">    @my_service_route(rule=&quot;/this-route&quot;, input_schema=[int], output_schema=int)</span>
+<span class="sd">    def my_sum(*ints):</span>
+<span class="sd">        return sum(ints)</span>
+
+<span class="sd">    I find there to be 2 important pitfalls to bear in mind if using the decorator this way:</span>
+<span class="sd">    #. This makes it seem like the function is being somehow modified, which it is not.</span>
+<span class="sd">        It can confuse people reading your code into thinking they have to make separate, dedicated webservice versions</span>
+<span class="sd">        of the function in order to register them.</span>
+<span class="sd">    #. It becomes unsafe to use positional arguments when using the decorator like this.  If I had defined that decorator</span>
+<span class="sd">        using the canonical flask pattern, e.g. @my_service_route(&quot;/this-route&quot;) it would have caused everything to</span>
+<span class="sd">        explode.  To get consistent behavior, you MUST specify the arguments by keyword.</span>
+
+<span class="sd">    :param service: The service or app which is to have the rule added to it. Must support the `add_url_rule` interface</span>
+<span class="sd">        as described in the `flask documentation`_.</span>
+<span class="sd">        .. _`flask documentation`: http://flask.pocoo.org/docs/0.11/api/</span>
+
+<span class="sd">    :param validation_pred: see description in `validator` fn of the same param.  function that returns true or false</span>
+<span class="sd">        The default value for validation on webservice routes is to use the value of __debug__ as a guide.</span>
+<span class="sd">    :param coerce_data: see description in `validator` fn of the same param.  boolean flag for coercing data.</span>
+<span class="sd">        The default is to coerce data.  This is often very helpful in parsing json from a web request.</span>
+<span class="sd">    :param rule: the url route to use when accessing this function</span>
+<span class="sd">    :param input_schema: a data definition as decribed in the `validate_against_schema` fn documentation.</span>
+<span class="sd">        This value is not required.  If none is given, no validation will be done on the input.</span>
+<span class="sd">    :param output_schema: a data definition as decribed in the `validate_against_schema` fn documentation.</span>
+<span class="sd">        This value is not required.  If none is given, no validation will be done on the output.</span>
+<span class="sd">    :param fn: The function intended to implement the request.</span>
+<span class="sd">    :return: the original function, unmodified.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">rule</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">update_wrapper</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="n">service_route</span><span class="p">,</span> <span class="n">service</span><span class="p">,</span> <span class="n">validation_pred</span><span class="p">,</span> <span class="n">coerce_data</span><span class="p">),</span> <span class="n">service_route</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">fn</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">update_wrapper</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="n">service_route</span><span class="p">,</span> <span class="n">service</span><span class="p">,</span> <span class="n">validation_pred</span><span class="p">,</span> <span class="n">coerce_data</span><span class="p">,</span> <span class="n">rule</span><span class="p">,</span> <span class="n">input_schema</span><span class="p">,</span> <span class="n">output_schema</span><span class="p">),</span> <span class="n">service_route</span><span class="p">)</span>
+
+    <span class="n">validation_pred</span> <span class="o">=</span> <span class="n">validation_pred</span> <span class="ow">or</span> <span class="n">WHEN_DEBUGGING</span>
+    <span class="n">input_validator</span> <span class="o">=</span> <span class="n">validator</span><span class="p">(</span><span class="n">input_schema</span> <span class="ow">or</span> <span class="n">IDENTITY</span><span class="p">,</span> <span class="s2">&quot;input to endpoint {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rule</span><span class="p">),</span> <span class="n">validation_predicate</span><span class="o">=</span><span class="n">validation_pred</span><span class="p">,</span> <span class="n">coerce_data</span><span class="o">=</span><span class="n">coerce_data</span><span class="p">)</span>
+    <span class="n">output_validator</span> <span class="o">=</span> <span class="n">validator</span><span class="p">(</span><span class="n">output_schema</span> <span class="ow">or</span> <span class="n">IDENTITY</span><span class="p">,</span> <span class="s2">&quot;output from endpoint {0}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">rule</span><span class="p">),</span> <span class="n">validation_predicate</span><span class="o">=</span><span class="n">validation_pred</span><span class="p">,</span> <span class="n">coerce_data</span><span class="o">=</span><span class="n">coerce_data</span><span class="p">)</span>
+
+    <span class="n">service</span><span class="o">.</span><span class="n">add_url_rule</span><span class="p">(</span>
+        <span class="n">rule</span><span class="o">=</span><span class="n">rule</span><span class="p">,</span>
+        <span class="n">endpoint</span><span class="o">=</span><span class="n">fn</span><span class="o">.</span><span class="n">__name__</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="s2">&quot;__name__&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="n">rule</span><span class="p">,</span>
+        <span class="n">view_func</span><span class="o">=</span><span class="n">update_wrapper</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">webservice_fn</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">input_validator</span><span class="p">,</span> <span class="n">output_validator</span><span class="p">),</span> <span class="n">fn</span><span class="p">),</span>
+        <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">fn</span></div>
+
+
+<div class="viewcode-block" id="service_registry"><a class="viewcode-back" href="../../schemagic.html#schemagic.web.service_registry">[docs]</a><span class="k">def</span> <span class="nf">service_registry</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">validation_pred</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">coerce_data</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="o">*</span><span class="n">service_definitions</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Registers all the service descriptions provided on the app specified by the `service` parameter.</span>
+
+<span class="sd">    :param service: Service to register functions on. see description of same parameter in `service_route` documentation.</span>
+<span class="sd">    :param validation_pred: function returning boolean. see description of same parameter in `service_route` documentation.</span>
+<span class="sd">    :param coerce_data: boolean. see description of same parameter in `service_route` documentation.</span>
+<span class="sd">    :param service_definitions: mappings that contain the keyword args to service_route.</span>
+<span class="sd">    :return: if service definitions not provided, returns the a function that accepts service definitions.</span>
+<span class="sd">            if service definitions provided, returns nothing.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">service_definitions</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">update_wrapper</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="n">service_registry</span><span class="p">,</span> <span class="n">service</span><span class="p">,</span> <span class="n">validation_pred</span><span class="p">,</span> <span class="n">coerce_data</span><span class="p">),</span> <span class="n">service_registry</span><span class="p">)</span>
+    <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">definition</span><span class="p">:</span> <span class="n">service_route</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">validation_pred</span><span class="p">,</span> <span class="n">coerce_data</span><span class="p">,</span> <span class="o">**</span><span class="n">definition</span><span class="p">),</span> <span class="n">service_definitions</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Tyler Tolton.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

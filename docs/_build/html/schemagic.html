@@ -1,0 +1,543 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>schemagic package &mdash; schemagic 0.3 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="schemagic 0.3 documentation" href="index.html" />
+    <link rel="prev" title="Welcome to schemagic’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="schemagic-package">
+<h1>schemagic package<a class="headerlink" href="#schemagic-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-schemagic.core">
+<span id="schemagic-core-module"></span><h2>schemagic.core module<a class="headerlink" href="#module-schemagic.core" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="schemagic.core.WHEN_DEBUGGING">
+<code class="descclassname">schemagic.core.</code><code class="descname">WHEN_DEBUGGING</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#schemagic.core.WHEN_DEBUGGING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="schemagic.core.is_keyed_mapping">
+<code class="descclassname">schemagic.core.</code><code class="descname">is_keyed_mapping</code><span class="sig-paren">(</span><em>schema</em><span class="sig-paren">)</span><a class="headerlink" href="#schemagic.core.is_keyed_mapping" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="schemagic.core.is_map_template">
+<code class="descclassname">schemagic.core.</code><code class="descname">is_map_template</code><span class="sig-paren">(</span><em>schema</em><span class="sig-paren">)</span><a class="headerlink" href="#schemagic.core.is_map_template" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="schemagic.core.is_sequence_template">
+<code class="descclassname">schemagic.core.</code><code class="descname">is_sequence_template</code><span class="sig-paren">(</span><em>schema</em><span class="sig-paren">)</span><a class="headerlink" href="#schemagic.core.is_sequence_template" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="schemagic.core.is_strict_sequence">
+<code class="descclassname">schemagic.core.</code><code class="descname">is_strict_sequence</code><span class="sig-paren">(</span><em>schema</em><span class="sig-paren">)</span><a class="headerlink" href="#schemagic.core.is_strict_sequence" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="schemagic.core.validate_keyed_mapping">
+<code class="descclassname">schemagic.core.</code><code class="descname">validate_keyed_mapping</code><span class="sig-paren">(</span><em>schema</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/schemagic/core.html#validate_keyed_mapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#schemagic.core.validate_keyed_mapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ensures all required keys are present, and that their corresponding value matches with the schema&#8217;s prescription</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>schema</strong> &#8211; A map of strings to data definitions, e.g. {&#8220;name&#8221;: str, &#8220;age&#8221;: int}</li>
+<li><strong>value</strong> &#8211; Any data which will be checked to make sure it matches the prescribed pattern</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The data after it has been run through its validators.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="schemagic.core.validate_map_template">
+<code class="descclassname">schemagic.core.</code><code class="descname">validate_map_template</code><span class="sig-paren">(</span><em>schema</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/schemagic/core.html#validate_map_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#schemagic.core.validate_map_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ensures all the keys and values of the given data are valid with the schema&#8217;s key and value validators</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>schema</strong> &#8211; A map template, i.e. a dict with one item, and the key is not a string, e.g. {int: str}</li>
+<li><strong>value</strong> &#8211; Any data which will be checked to make sure it matches the prescribed pattern</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The data after it has been run through its validators.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="schemagic.core.validate_sequence_template">
+<code class="descclassname">schemagic.core.</code><code class="descname">validate_sequence_template</code><span class="sig-paren">(</span><em>schema</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/schemagic/core.html#validate_sequence_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#schemagic.core.validate_sequence_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ensures each item of the value is of the patterns specified by the schema[&#8216;s first element].</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>schema</strong> &#8211; A sequence of one element, and that element is a data definition, e.g. [int] or [{str: int}]</li>
+<li><strong>value</strong> &#8211; Any data which will be checked to make sure it matches the prescribed pattern</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The data after it has been run through its validators.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="schemagic.core.validate_strict_sequence">
+<code class="descclassname">schemagic.core.</code><code class="descname">validate_strict_sequence</code><span class="sig-paren">(</span><em>schema</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/schemagic/core.html#validate_strict_sequence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#schemagic.core.validate_strict_sequence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ensures that the elements of the value are in the same order and valid with the same definitions in the schema.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>schema</strong> &#8211; A sequence of data definitions, e.g. [int, {str:int}, [str, int, int], {&#8220;age&#8221;: int}]</li>
+<li><strong>value</strong> &#8211; Any data which will be checked to make sure it matches the prescribed pattern</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">The data after it has been run through its validators.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="schemagic.core.validator">
+<code class="descclassname">schemagic.core.</code><code class="descname">validator</code><span class="sig-paren">(</span><em>schema</em>, <em>subject_name_str</em>, <em>validation_predicate=None</em>, <em>coerce_data=False</em>, <em>data=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/schemagic/core.html#validator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#schemagic.core.validator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a validation function which conditionally applies validation and coercion to data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>schema</strong> &#8211; a data definition as described in the function <cite>validate_against_schema</cite></li>
+<li><strong>subject_name_str</strong> &#8211; a string which will be passed into the error message if validation fails
+an example of an error message with subject_name_str=&#8221;My Business Type&#8221;:
+ValueError: Bad value provided for My Business Type. - error: &lt;some error&gt; schema: &lt;the schema&gt; value: &lt;the val&gt;&#8221;</li>
+<li><strong>validation_predicate</strong> &#8211; a function that takes no arguments and returns a boolean.  This will be called before
+validation occurs.  If it returns False, validation will be skipped.</li>
+<li><strong>coerce_data</strong> &#8211; <p>True or False - indicates whether the validator should return the output of applying
+validate_against_schema to the data, or simply return the original data.
+<strong>NOTE</strong>: if your validator applies functions that mutate their inputs, the data may be altered regardless of the</p>
+<blockquote>
+<div>value of this parameter.  Mutable state.  Not even once.</div></blockquote>
+</li>
+<li><strong>data</strong> &#8211; The data which will ultimately be passed into the validator.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><dl class="docutils">
+<dt>when data is not supplied - returns a validator function (i.e. it returns a copy of validator with all</dt>
+<dd><p class="first last">arguments supplied except data)</p>
+</dd>
+<dt>when data is supplied: returns data (possibly modified, depending on the value of <cite>coerce_data</cite>) if the data</dt>
+<dd><p class="first last">is valid with the given schema, else throws a ValueError.</p>
+</dd>
+</dl>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-schemagic.func">
+<span id="schemagic-func-module"></span><h2>schemagic.func module<a class="headerlink" href="#module-schemagic.func" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="schemagic.func.ALWAYS">
+<code class="descclassname">schemagic.func.</code><code class="descname">ALWAYS</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#schemagic.func.ALWAYS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="schemagic.func.IDENTITY">
+<code class="descclassname">schemagic.func.</code><code class="descname">IDENTITY</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#schemagic.func.IDENTITY" title="Permalink to this definition">¶</a></dt>
+<dd><p>NOTE EVERYTHING IN THIS FILE IS EXPERIMENTAL.  DO NOT EXPECT STABILITY OR USABILITY IN CURRENT FORM</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="schemagic.func.WHEN_DEBUGGING">
+<code class="descclassname">schemagic.func.</code><code class="descname">WHEN_DEBUGGING</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#schemagic.func.WHEN_DEBUGGING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="schemagic.func.validate_function_input">
+<code class="descclassname">schemagic.func.</code><code class="descname">validate_function_input</code><span class="sig-paren">(</span><em>input_validator</em>, <em>arg_list</em>, <em>kwarg_dict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/schemagic/func.html#validate_function_input"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#schemagic.func.validate_function_input" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="schemagic.func.validated">
+<code class="descclassname">schemagic.func.</code><code class="descname">validated</code><span class="sig-paren">(</span><em>validation_predicate=None</em>, <em>coerce_data=True</em>, <em>input_schema=None</em>, <em>output_schema=None</em>, <em>fn=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/schemagic/func.html#validated"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#schemagic.func.validated" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="schemagic-scratch-module">
+<h2>schemagic.scratch module<a class="headerlink" href="#schemagic-scratch-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-schemagic.utils">
+<span id="schemagic-utils-module"></span><h2>schemagic.utils module<a class="headerlink" href="#module-schemagic.utils" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="schemagic.utils.assert_raises">
+<code class="descclassname">schemagic.utils.</code><code class="descname">assert_raises</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwds</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/schemagic/utils.html#assert_raises"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#schemagic.utils.assert_raises" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="schemagic.utils.merge_with">
+<code class="descclassname">schemagic.utils.</code><code class="descname">merge_with</code><span class="sig-paren">(</span><em>fn</em>, <em>a</em>, <em>b</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/schemagic/utils.html#merge_with"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#schemagic.utils.merge_with" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns a new dictionary that is the merger of a and b.  applies fn to the values of colliding keys.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">merge_with</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">add</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+<span class="go">{&#39;a&#39;: 2, &#39;b&#39;: 1}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="schemagic.utils.multiple_dispatch_fn">
+<code class="descclassname">schemagic.utils.</code><code class="descname">multiple_dispatch_fn</code><span class="sig-paren">(</span><em>dispatch_map</em>, <em>default=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/schemagic/utils.html#multiple_dispatch_fn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#schemagic.utils.multiple_dispatch_fn" title="Permalink to this definition">¶</a></dt>
+<dd><p>creates a multiple dispatch function.</p>
+<p>returns a function whose implementation of the function is based on the arguments passed to it.  it decides
+what implementation to use by testing the arguments against a series of predicates to detect what situation
+is applicable.</p>
+<p>For example,
+&gt;&gt;&gt; add_if_ints_multiply_if_floats = multiple_dispatch_fn(
+... {lambda <a href="#id1"><span class="problematic" id="id2">*</span></a>nums: all(isinstance(num, int) for num in nums): operator.add,
+...  lambda <a href="#id3"><span class="problematic" id="id4">*</span></a>nums: all(isinstance(num, float) for num in nums): operator.mul})
+&gt;&gt;&gt; add_if_ints_multiply_if_floats(10, 10)
+20
+&gt;&gt;&gt; add_if_ints_multiply_if_floats(10.0, 10.0)
+100.0</p>
+<p>You can also provide a default implementation to use if none of the predicates match.
+For example,
+&gt;&gt;&gt; add_if_ints_else_return_unmodified = multiple_dispatch_fn(
+... {lambda <a href="#id5"><span class="problematic" id="id6">*</span></a>nums: all(isinstance(num, int) for num in nums): operator.add},
+...  default=lambda <a href="#id7"><span class="problematic" id="id8">*</span></a>items: items)
+&gt;&gt;&gt; add_if_ints_else_return_unmodified(25, 25)
+50
+&gt;&gt;&gt; add_if_ints_else_return_unmodified(&#8220;hello&#8221;, None)
+(&#8216;hello&#8217;, None)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>dispatch_map</strong> &#8211; mapping {predicate_fn: implementation_fn}</li>
+<li><strong>default</strong> &#8211; implementation fn to be used if none of the predicates are satisfied</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="schemagic.utils.remove_key">
+<code class="descclassname">schemagic.utils.</code><code class="descname">remove_key</code><span class="sig-paren">(</span><em>dict_</em>, <em>key</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/schemagic/utils.html#remove_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#schemagic.utils.remove_key" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="schemagic.utils.separate_dict">
+<code class="descclassname">schemagic.utils.</code><code class="descname">separate_dict</code><span class="sig-paren">(</span><em>initial_dict</em>, <em>*keys_to_remove</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/schemagic/utils.html#separate_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#schemagic.utils.separate_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns 2 new dicts, one with some keys removed, and another with only those keys</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-schemagic.validators">
+<span id="schemagic-validators-module"></span><h2>schemagic.validators module<a class="headerlink" href="#module-schemagic.validators" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="schemagic.validators.enum">
+<code class="descclassname">schemagic.validators.</code><code class="descname">enum</code><span class="sig-paren">(</span><em>*possible_vals</em><span class="sig-paren">)</span><a class="headerlink" href="#schemagic.validators.enum" title="Permalink to this definition">¶</a></dt>
+<dd><p>checks to see if the data is one of the provided values</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="schemagic.validators.formatted_string">
+<code class="descclassname">schemagic.validators.</code><code class="descname">formatted_string</code><span class="sig-paren">(</span><em>str_format</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#schemagic.validators.formatted_string" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stringifies the data, then matches it against the supplied regex string.  Valid if match is returned</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="schemagic.validators.or_">
+<code class="descclassname">schemagic.validators.</code><code class="descname">or_</code><span class="sig-paren">(</span><em>*schemata</em><span class="sig-paren">)</span><a class="headerlink" href="#schemagic.validators.or_" title="Permalink to this definition">¶</a></dt>
+<dd><p>checks to see if the data is valid with any of the given data definitions</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="schemagic.validators.predicate_validator">
+<code class="descclassname">schemagic.validators.</code><code class="descname">predicate_validator</code><span class="sig-paren">(</span><em>predicate</em>, <em>name=None</em>, <em>coercer=None</em>, <em>message=None</em>, <em>data=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/schemagic/validators.html#predicate_validator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#schemagic.validators.predicate_validator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Builds new validator function that tests, and optionally coerces, data against the supplied predicate and coercer</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>predicate</strong> &#8211; function that accepts one argument, the data, returns true if data is good, false otherwise.</li>
+<li><strong>name</strong> &#8211; name of the supplied predicate.  useful when building validators from anonymous functions.</li>
+<li><strong>coercer</strong> &#8211; a function that accepts the data and returns a modification of that data.  If no coercer is provided,
+the data will still be subject to any coercions that occur within the validation.  This is to allow for additional
+flexibility, for instance, you may want to convert a datetime string into a datatime object before validating it.</li>
+<li><strong>message</strong> &#8211; A message that described the problem with the data if it wasn&#8217;t validated correctly.
+This message will be automatically suffixed with a printout of the data recieved by the validator.
+If message is not provided, a default message is used that references the predicate by name.</li>
+<li><strong>data</strong> &#8211; the data to be validated</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><dl class="docutils">
+<dt>if data is not supplied, returns a copy of the predicate validator function with all the other</dt>
+<dd><p class="first last">values &#8220;filled in&#8221;.  i.e. it returns a curried function.</p>
+</dd>
+</dl>
+<p>If the data is supplied, returns the, possibly transformed, data if it is valid, else throws an error.</p>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-schemagic.web">
+<span id="schemagic-web-module"></span><h2>schemagic.web module<a class="headerlink" href="#module-schemagic.web" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="schemagic.web.ALWAYS">
+<code class="descclassname">schemagic.web.</code><code class="descname">ALWAYS</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#schemagic.web.ALWAYS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="schemagic.web.IDENTITY">
+<code class="descclassname">schemagic.web.</code><code class="descname">IDENTITY</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#schemagic.web.IDENTITY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="schemagic.web.WHEN_DEBUGGING">
+<code class="descclassname">schemagic.web.</code><code class="descname">WHEN_DEBUGGING</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#schemagic.web.WHEN_DEBUGGING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="schemagic.web.service_registry">
+<code class="descclassname">schemagic.web.</code><code class="descname">service_registry</code><span class="sig-paren">(</span><em>service</em>, <em>validation_pred=None</em>, <em>coerce_data=True</em>, <em>*service_definitions</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/schemagic/web.html#service_registry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#schemagic.web.service_registry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Registers all the service descriptions provided on the app specified by the <cite>service</cite> parameter.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>service</strong> &#8211; Service to register functions on. see description of same parameter in <cite>service_route</cite> documentation.</li>
+<li><strong>validation_pred</strong> &#8211; function returning boolean. see description of same parameter in <cite>service_route</cite> documentation.</li>
+<li><strong>coerce_data</strong> &#8211; boolean. see description of same parameter in <cite>service_route</cite> documentation.</li>
+<li><strong>service_definitions</strong> &#8211; mappings that contain the keyword args to service_route.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">if service definitions not provided, returns the a function that accepts service definitions.
+if service definitions provided, returns nothing.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="schemagic.web.service_route">
+<code class="descclassname">schemagic.web.</code><code class="descname">service_route</code><span class="sig-paren">(</span><em>service</em>, <em>validation_pred=None</em>, <em>coerce_data=True</em>, <em>rule=None</em>, <em>input_schema=None</em>, <em>output_schema=None</em>, <em>fn=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/schemagic/web.html#service_route"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#schemagic.web.service_route" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function decorator that registers a <cite>webservice_fn</cite> version of the function on the provided service.</p>
+<p>Note that this function is used primarily to register functions en masse with the <cite>service_registry</cite> interface.
+However, it can be used as a traditional decorator if desired. e.g.:</p>
+<p>my_service_route = partial(service_route, my_service)</p>
+<p>&#64;my_service_route(rule=&#8221;/this-route&#8221;, input_schema=[int], output_schema=int)
+def my_sum(<a href="#id9"><span class="problematic" id="id10">*</span></a>ints):</p>
+<blockquote>
+<div>return sum(ints)</div></blockquote>
+<p>I find there to be 2 important pitfalls to bear in mind if using the decorator this way:
+#. This makes it seem like the function is being somehow modified, which it is not.</p>
+<blockquote>
+<div>It can confuse people reading your code into thinking they have to make separate, dedicated webservice versions
+of the function in order to register them.</div></blockquote>
+<ol class="arabic">
+<li><dl class="first docutils">
+<dt>It becomes unsafe to use positional arguments when using the decorator like this.  If I had defined that decorator</dt>
+<dd><p class="first last">using the canonical flask pattern, e.g. &#64;my_service_route(&#8220;/this-route&#8221;) it would have caused everything to
+explode.  To get consistent behavior, you MUST specify the arguments by keyword.</p>
+</dd>
+</dl>
+</li>
+</ol>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>service</strong> &#8211; The service or app which is to have the rule added to it. Must support the <cite>add_url_rule</cite> interface
+as described in the <a class="reference internal" href="#flask-documentation">flask documentation</a>.
+.. <span class="target" id="flask-documentation">flask documentation</span>: <a class="reference external" href="http://flask.pocoo.org/docs/0.11/api/">http://flask.pocoo.org/docs/0.11/api/</a></li>
+<li><strong>validation_pred</strong> &#8211; see description in <cite>validator</cite> fn of the same param.  function that returns true or false
+The default value for validation on webservice routes is to use the value of __debug__ as a guide.</li>
+<li><strong>coerce_data</strong> &#8211; see description in <cite>validator</cite> fn of the same param.  boolean flag for coercing data.
+The default is to coerce data.  This is often very helpful in parsing json from a web request.</li>
+<li><strong>rule</strong> &#8211; the url route to use when accessing this function</li>
+<li><strong>input_schema</strong> &#8211; a data definition as decribed in the <cite>validate_against_schema</cite> fn documentation.
+This value is not required.  If none is given, no validation will be done on the input.</li>
+<li><strong>output_schema</strong> &#8211; a data definition as decribed in the <cite>validate_against_schema</cite> fn documentation.
+This value is not required.  If none is given, no validation will be done on the output.</li>
+<li><strong>fn</strong> &#8211; The function intended to implement the request.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">the original function, unmodified.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="schemagic.web.webservice_fn">
+<code class="descclassname">schemagic.web.</code><code class="descname">webservice_fn</code><span class="sig-paren">(</span><em>fn</em>, <em>input_validator</em>, <em>output_validator</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/schemagic/web.html#webservice_fn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#schemagic.web.webservice_fn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handles the minutia of pulling data from the request object and passing it into the function and validators</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>fn</strong> &#8211; the function which is supposed to fulfill the contract defined by the input and output schemata</li>
+<li><strong>input_validator</strong> &#8211; a <cite>validator</cite> as described in the core function of the same name</li>
+<li><strong>output_validator</strong> &#8211; a <cite>validator</cite> as described in the core function of the same name</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">a json Flask Response that contains either the requested data or an error.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-schemagic">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-schemagic" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">schemagic package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-schemagic.core">schemagic.core module</a></li>
+<li><a class="reference internal" href="#module-schemagic.func">schemagic.func module</a></li>
+<li><a class="reference internal" href="#schemagic-scratch-module">schemagic.scratch module</a></li>
+<li><a class="reference internal" href="#module-schemagic.utils">schemagic.utils module</a></li>
+<li><a class="reference internal" href="#module-schemagic.validators">schemagic.validators module</a></li>
+<li><a class="reference internal" href="#module-schemagic.web">schemagic.web module</a></li>
+<li><a class="reference internal" href="#module-schemagic">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to schemagic&#8217;s documentation!</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/schemagic.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Tyler Tolton.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.4</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/schemagic.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
