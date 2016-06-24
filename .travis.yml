@@ -5,4 +5,4 @@ python:
 install:
     - "pip install coverage"
 script:
-    - "coverage run --source=sandman setup.py test"
+    - "coverage run --source=schemagic setup.py test"
