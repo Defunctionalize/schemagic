@@ -6,7 +6,9 @@ from schemagic.utils import merge_with, multiple_dispatch_fn
 WHEN_DEBUGGING = lambda: __debug__
 
 def validate_map_template(schema, value):
-    """Ensures all the keys and values of the given data are valid with the schema's key and value validators
+    """What the heck is  generating this documentation?  What is going on?
+
+    Ensures all the keys and values of the given data are valid with the schema's key and value validators
 
     :param schema: A map template, i.e. a dict with one item, and the key is not a string, e.g. {int: str}
     :param value: Any data which will be checked to make sure it matches the prescribed pattern
