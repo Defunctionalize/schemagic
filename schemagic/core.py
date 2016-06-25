@@ -59,8 +59,8 @@ _validate_against_schema = multiple_dispatch_fn({
     lambda schema, value: is_map_template(schema): validate_map_template,
     lambda schema, value: is_keyed_mapping(schema): validate_keyed_mapping},
     default=lambda schema, value: schema(value))
-
-def validate_against_schema(schema, value):
+validate_against_schema = lambda schema, value: _validate_against_schema(schema, value)
+validate_against_schema.__doc__ = \
     """Ensures that the data is valid with the given schema
 
     :param schema: A data definition.  This definition can take any of 5 forms --
@@ -80,7 +80,6 @@ def validate_against_schema(schema, value):
     :param value: Any data which will be checked to make sure it matches the prescribed pattern
     :return: The data after it has been run through its validators.
     """
-    return _validate_against_schema(schema, value)
 
 
 
