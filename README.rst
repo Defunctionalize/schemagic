@@ -1,5 +1,5 @@
 Schemagic / Schemagic.web:  [some kind of tagline!]
-==========================================================
+===================================================
 
 .. image:: https://img.shields.io/badge/pypi-v0.3.26-green.svg
     :target: https://pypi.python.org/pypi/schemagic

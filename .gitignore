@@ -12,4 +12,3 @@ test/__pycache__/
 .cache/
 .tox/
 .eggs/
-/docs/_build/
