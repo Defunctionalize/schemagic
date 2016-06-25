@@ -19,7 +19,8 @@ _dispatch_to_fn = multiple_dispatch_fn({
     lambda fn, args: isinstance(args, collections.MutableMapping): lambda fn, arg_list: fn(**arg_list)},
     default= lambda fn, arg_list: fn(arg_list)
 )
-def dispatch_to_fn(fn, args):
+dispatch_to_fn = lambda fn, args: _dispatch_to_fn(fn, args)
+dispatch_to_fn.__doc__ = \
     """Dispatches a json object to a function.  The way the data is applied depends on the structure of the data.
     #. if the data is a sequence, it will unpack it and pass each item into the function, i.e. it will use *args
     #. if the data is a mapping, it will unpack it and pass in the items as keywords, i.e. it will use **kwargs
@@ -35,7 +36,7 @@ def dispatch_to_fn(fn, args):
     :param args: a data structure (usually rehydrated json) that is to be applied piecemeal to the function. see
         rules presented above.
     """
-    return _dispatch_to_fn(fn, args)
+
 
 def _process_error(exception):
     """Decomposition of the webservice fn handler.  returns 400 if the exception occurred in the input validation
