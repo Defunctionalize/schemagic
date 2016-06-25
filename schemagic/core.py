@@ -61,7 +61,8 @@ _validate_against_schema = multiple_dispatch_fn({
     default=lambda schema, value: schema(value))
 validate_against_schema = lambda schema, value: _validate_against_schema(schema, value)
 validate_against_schema.__doc__ = \
-    """Ensures that the data is valid with the given schema
+    """Testing to ensure changes to docs are getting reflected in generated documentation
+    Ensures that the data is valid with the given schema
 
     :param schema: A data definition.  This definition can take any of 5 forms --
         #. **function**: the function will be called fn(data) and expected to return the data, if correct, or throw an error
