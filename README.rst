@@ -26,6 +26,28 @@ To install Schemagic, simply:
 
     $ pip install schemagic
 
+Purpose
+-------
+
+*Please note: this description is adapted from the excellently phrased
+introduction to the `prismatic/schema <https://github.com/plumatic/schema>`_ clojure library this project was based on
+
+One of the difficulties with large scale, multi-team python efforts is the overhead of understanding the kind of data
+(e.g., list of strings, nested map from long to string to double) that a function or a webservice expects and returns.
+Python lacks static typing and, moreover, static typing is insufficient to capture and validate custom business types,
+which ultimately is what holds back teams from rapidly iterating on each others work.
+
+Schemagic is, utlimately, all about three things:
+
+    * data description using the simplest python data structures and an easily extensible syntax
+    * data communication between teams, enhancing documentation, giving descriptive feedback when something went wrong.
+    * data validation based on descriptions of data that have been documented and communicated.
+      Comments describing the shape of data are insufficient in real world applications.
+      Unless the documentation is backed up by programmatic verification, the documentation get initially ignored,
+      and ultimately falls behind the actual program behavior.
+
+In other words, **Schemagic is all about data**.
+
 
 How to Contribute
 -----------------
@@ -39,8 +61,8 @@ How to Contribute
 .. _`the maintainer`: tjtolton@gmail.com
 
 
-Documentation
--------------
+Getting Acquainted with Schemagic
+---------------------------------
 
 For now, I'm simply going to put all the documentation here in the README.
 
