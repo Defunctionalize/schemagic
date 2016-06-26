@@ -1,7 +1,7 @@
 Schemagic / Schemagic.web:  [some kind of tagline!]
 ===================================================
 
-.. image:: https://img.shields.io/badge/pypi-v0.7.0-green.svg
+.. image:: https://img.shields.io/badge/pypi-v0.7.0-blue.svg
     :target: https://pypi.python.org/pypi/schemagic
 
 
