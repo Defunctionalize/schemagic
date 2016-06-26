@@ -45,18 +45,6 @@ To you, the programmer, schemagic is all about three things:
 In other words, **schemagic is all about data**.
 
 
-How to Contribute
------------------
-#. This codebase uses the popular `git flow <http://nvie.com/posts/a-successful-git-branching-model/>`_ model for version control
-#. Fork `the repository`_ and make a branch off of develop, (ideally using the naming convention feature/your-feature)
-#. When you've finished your feature, make a pull request back into develop.
-#. Once you've made your pull request, email `the maintainer`_ and let me know!
-#. Finally, if you ever have any questions about how or what to contribute, feel free to send an email!
-
-.. _`the repository`: https://github.com/TJTolton/schemagic
-.. _`the maintainer`: tjtolton@gmail.com
-
-
 Getting Acquainted with Schemagic
 ---------------------------------
 
@@ -316,6 +304,17 @@ Important notes:
 #. The webservices all uniformally use POST requests to transmit data.  The data supplied to the endpoints comes from the payload of the request.
 #. Regarding the above example, there are alternate ways of describing the input to fib().  We could have said "input_schema=int", which would imply that the POST request payload should be an int, unwrapped.
    the notation used in the example requires the POST request to provide its data via keyword.
+
+How to Contribute
+-----------------
+#. This codebase uses the popular `git flow <http://nvie.com/posts/a-successful-git-branching-model/>`_ model for version control
+#. Fork `the repository`_ and make a branch off of develop, (ideally using the naming convention feature/your-feature)
+#. When you've finished your feature, make a pull request back into develop.
+#. Once you've made your pull request, email `the maintainer`_ and let me know!
+#. Finally, if you ever have any questions about how or what to contribute, feel free to send an email!
+
+.. _`the repository`: https://github.com/TJTolton/schemagic
+.. _`the maintainer`: tjtolton@gmail.com
 
 Documentation
 =============
