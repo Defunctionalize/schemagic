@@ -32,7 +32,7 @@ What is schemagic?
 One of the difficulties with large scale, multi-team python efforts is the overhead of understanding the kind of data
 (e.g., list of strings, nested map from long to string to double) that a function or a webservice expects and returns.
 Python lacks static typing and, moreover, static typing is insufficient to capture and validate custom business types,
-which ultimately is what holds back teams from rapidly iterating on each others work.[1]
+which ultimately is what holds back teams from rapidly iterating on each others work.[1]_
 
 Schemagic is, utlimately, all about three things:
 
