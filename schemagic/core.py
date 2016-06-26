@@ -67,11 +67,23 @@ validate_against_schema.__doc__ = \
     Ensures that the data is valid with the given schema
 
     :param schema: A data definition.  This definition can take any of 5 forms --
-        #. **function**: the function will be called fn(data) and expected to return the data, if correct, or throw an error
-        #. **map template**:  a dict with one item, where both the key and value are data definitions, e.g. ``{int: [str]}``
-        #. **keyed mapping**: A map of strings to data definitions, e.g. ``{"name": str, "age": int}``
-        #. **sequence template**: A one element sequence, where the element is a data definition, e.g. ``[int] or [{str: int}]``
-        #. **strict sequence**: A sequence of data definitions, e.g. ``[int, {str:int}, [str, int, int], {"age": int}]``
+
+        1. **function**:
+         the function will be called fn(data) and expected to return the data, if correct, or throw an error
+            e.g. ``int``
+        2. **map template**:
+          a dict with one item, where both the key and value are data definitions,
+            e.g. ``{int: [str]}``
+        3. **keyed mapping**:
+         A map of strings to data definitions,
+            e.g. ``{"name": str, "age": int}``
+        4. **sequence template**:
+         A one element sequence, where the element is a data definition,
+            e.g. ``[int] or [{str: int}]``
+        5. **strict sequence**:
+         A sequence of data definitions,
+            e.g. ``[int, {str:int}, [str, int, int], {"age": int}]``
+
 
         Notable things that do **not** count as data definitions include primitive data such as strings, integers, or bools.
         These data could be used as components of data definition, but should not be used alone in places that expect
