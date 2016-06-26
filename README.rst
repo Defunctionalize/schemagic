@@ -47,11 +47,11 @@ In other words, **schemagic is all about data**.
 
 How to Contribute
 -----------------
-
-#. What the codebase needs primarily is a large suite of validation functions, such as those found in validators.py
-#. Additional support for Schemagic.web would also be welcome.  Currently it only supports Flask.
-#. Fork `the repository`_ on GitHub to start making your changes to the **master** branch (or branch off of it).
-#. Send a pull request and email `the maintainer`_.  Do me a favor and tag your subject with [Schemagic] :)
+#. This codebase uses the popular `git flow <http://nvie.com/posts/a-successful-git-branching-model/>` model for version control
+#. Fork `the repository`_ on GitHub and make a branch off of develop, (ideally using the naming convention feature/your-feature)
+#. When you've finished your feature, make a pull request back into develop.
+#. Once you've made your pull request, email `the maintainer`_ and let me know!
+#. Finally, if you ever have any questions about how or what to contribute, feel free to send an email!
 
 .. _`the repository`: https://github.com/TJTolton/schemagic
 .. _`the maintainer`: tjtolton@gmail.com
@@ -60,9 +60,7 @@ How to Contribute
 Getting Acquainted with Schemagic
 ---------------------------------
 
-For now, I'm simply going to put all the documentation here in the README.
-
-But enough talk.  Lets build a schema and start using it.
+Lets build a schema and start using it.
 
 .. code-block:: python
 
