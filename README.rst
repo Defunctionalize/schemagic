@@ -32,16 +32,16 @@ What is schemagic?
 One of the difficulties with large scale, multi-team python efforts is the overhead of understanding the kind of data
 (e.g., list of strings, nested map from long to string to double) that a function or a webservice expects and returns.
 Python lacks static typing and, moreover, static typing is insufficient to capture and validate custom business types,
-which ultimately is what holds back teams from rapidly iterating on each others work.[1]_
+which ultimately is what holds back teams from rapidly iterating on each others work.[1]
 
 Schemagic is, utlimately, all about three things:
 
-    * data description using the simplest python data structures and an easily extensible syntax
-    * data communication between teams, enhancing documentation, giving descriptive feedback when something went wrong.
-    * data validation based on descriptions of data that have been documented and communicated.
-      Comments describing the shape of data are insufficient in real world applications.
-      Unless the documentation is backed up by programmatic verification, the documentation get initially ignored,
-      and ultimately falls behind the actual program behavior.
+* data description using the simplest python data structures and an easily extensible syntax
+* data communication between teams, enhancing documentation, giving descriptive feedback when something went wrong.
+* data validation based on descriptions of data that have been documented and communicated.
+  Comments describing the shape of data are insufficient in real world applications.
+  Unless the documentation is backed up by programmatic verification, the documentation get initially ignored,
+  and ultimately falls behind the actual program behavior.
 
 In other words, **Schemagic is all about data**.
 
