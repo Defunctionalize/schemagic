@@ -33,7 +33,7 @@ One of the difficulties with large scale, multi-team python efforts is the overh
 Python lacks static typing and, moreover, static typing is insufficient to capture and validate custom business types,
 which ultimately is what holds back teams from rapidly iterating on each others work.[1]
 
-Schemagic is, utlimately, all about three things:
+To you, the programmer, schemagic is all about three things:
 
 * data description using the simplest python data structures and an easily extensible syntax
 * data communication between teams, enhancing documentation, giving descriptive feedback when something went wrong.
