@@ -1,7 +1,7 @@
 from schemagic.core import *
 
 
-__version__ = '0.3.26'
+__version__ = '0.7.0'
 __author__ = 'Tyler Tolton'
 __authoremail__ = 'tjtolton@gmail.com'
 __url__ = 'https://github.com/Mechrophile/schemagic'
