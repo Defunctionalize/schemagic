@@ -26,16 +26,13 @@ To install Schemagic, simply:
 
     $ pip install schemagic
 
-Purpose
--------
-
-*Please note: this description is adapted from the excellently phrased
-introduction to the `prismatic/schema <https://github.com/plumatic/schema>`_ clojure library this project was based on
+What is schemagic?
+------------------
 
 One of the difficulties with large scale, multi-team python efforts is the overhead of understanding the kind of data
 (e.g., list of strings, nested map from long to string to double) that a function or a webservice expects and returns.
 Python lacks static typing and, moreover, static typing is insufficient to capture and validate custom business types,
-which ultimately is what holds back teams from rapidly iterating on each others work.
+which ultimately is what holds back teams from rapidly iterating on each others work.[1]
 
 Schemagic is, utlimately, all about three things:
 
@@ -323,3 +320,4 @@ Important notes:
 #. Regarding the above example, there are alternate ways of describing the input to fib().  We could have said "input_schema=int", which would imply that the POST request payload should be an int, unwrapped.
    the notation used in the example requires the POST request to provide its data via keyword.
 
+.. [1] Please note: this description is adapted from the excellently phrased introduction to the `prismatic/schema <https://github.com/plumatic/schema>`_ clojure library this project was based on
