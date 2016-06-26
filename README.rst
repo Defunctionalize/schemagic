@@ -47,8 +47,8 @@ In other words, **schemagic is all about data**.
 
 How to Contribute
 -----------------
-#. This codebase uses the popular `git flow <http://nvie.com/posts/a-successful-git-branching-model/>` model for version control
-#. Fork `the repository`_ on GitHub and make a branch off of develop, (ideally using the naming convention feature/your-feature)
+#. This codebase uses the popular `git flow <http://nvie.com/posts/a-successful-git-branching-model/>`_ model for version control
+#. Fork `the repository`_ and make a branch off of develop, (ideally using the naming convention feature/your-feature)
 #. When you've finished your feature, make a pull request back into develop.
 #. Once you've made your pull request, email `the maintainer`_ and let me know!
 #. Finally, if you ever have any questions about how or what to contribute, feel free to send an email!
