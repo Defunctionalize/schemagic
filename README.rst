@@ -1,5 +1,9 @@
-Schemagic / Schemagic.web:  [some kind of tagline!]
-===================================================
+=========================
+Schemagic / Schemagic.web
+=========================
+
+Remove the Guesswork from Data Processing
+=========================================
 
 .. image:: https://img.shields.io/badge/pypi-v0.7.0-blue.svg
     :target: https://pypi.python.org/pypi/schemagic
