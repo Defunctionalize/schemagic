@@ -8,6 +8,10 @@ Schemagic / Schemagic.web:  [some kind of tagline!]
 .. image:: https://img.shields.io/badge/ReadTheDocs-latest-red.svg
     :target: http://schemagic.readthedocs.io/en/latest/schemagic.html
 
+
+.. image:: https://travis-ci.org/Mechrophile/schemagic.svg?branch=master
+
+
 Schemagic is a rather utilitarian re-imagining of the wonderful and powerful clojure library `Schema <https://github.com/plumatic/schema>`_!
 Schemagic.web is what programmers do when they hate web programming, but want to make their programs accessible to the web.
 
