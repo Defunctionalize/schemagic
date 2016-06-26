@@ -317,4 +317,10 @@ Important notes:
 #. Regarding the above example, there are alternate ways of describing the input to fib().  We could have said "input_schema=int", which would imply that the POST request payload should be an int, unwrapped.
    the notation used in the example requires the POST request to provide its data via keyword.
 
+Documentation
+=============
+
+This project autogenerates it's documentation using sphinx and hosts it using readthedocs.  It can be viewed `here <http://schemagic.readthedocs.io/en/latest/schemagic.html>`_
+
+
 .. [1] Please note: this description is adapted from the excellently phrased introduction to the `prismatic/schema <https://github.com/plumatic/schema>`_ clojure library this project was based on
