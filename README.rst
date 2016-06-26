@@ -246,28 +246,9 @@ Lets walk through how we might set up this webservice in flask:
 .. code-block:: python
 
     from flask import Flask, json
+    from fibonacci import fib # assuming we implemented the function in fibonnaci.py
 
     app = Flask(__name__)
-
-    def memo(fn):
-        _cache = {}
-        def _f(*args):
-            try:
-                return _cache[args]
-            except KeyError:
-                _cache[args] = result = fn(*args)
-                return result
-            except TypeError:
-                return fn(*args)
-        _f.cache = _cache
-        return _f
-
-    @memo
-    def fib(n):
-        if n == 0 or n == 1:
-            return 1
-        else:
-            return fib(n - 1) + fib(n - 2)
 
     @app.route("/fibonacci/<index>")
     def web_fib_endpoint(index):
@@ -295,31 +276,11 @@ Lets see an adapted version of this code using schemagic.web utilities.
 .. code-block:: python
 
     from flask.app import Flask
+    from fibonacci import fib # assuming we implemented the function in fibonnaci.py
     from schemagic.web import service_registry
 
     app = Flask(__name__)
     register_fibonnacci_services = service_registry(app)
-
-
-    def memo(fn):
-        _cache = {}
-        def _f(*args):
-            try:
-                return _cache[args]
-            except KeyError:
-                _cache[args] = result = fn(*args)
-                return result
-            except TypeError:
-                return fn(*args)
-        _f.cache = _cache
-        return _f
-
-    @memo
-    def fib(n):
-        if n == 0 or n == 1:
-            return 1
-        else:
-            return fib(n - 1) + fib(n - 2)
 
     register_fibonnacci_services(
         dict(rule="/fibonacci",
@@ -338,5 +299,5 @@ Important notes:
 
 #. The webservices all uniformally use POST requests to transmit data.  The data supplied to the endpoints comes from the payload of the request.
 #. Regarding the above example, there are alternate ways of describing the input to fib().  We could have said "input_schema=int", which would imply that the POST request payload should be an int, unwrapped.
-    the notation used in the example requires the POST request to provide its data via keyword.
+   the notation used in the example requires the POST request to provide its data via keyword.
 
