@@ -40,10 +40,10 @@ Schemagic is, utlimately, all about three things:
 * data communication between teams, enhancing documentation, giving descriptive feedback when something went wrong.
 * data validation based on descriptions of data that have been documented and communicated.
   Comments describing the shape of data are insufficient in real world applications.
-  Unless the documentation is backed up by programmatic verification, the documentation get initially ignored,
+  Unless the documentation is backed up by programmatic verification, the documentation gets initially ignored,
   and ultimately falls behind the actual program behavior.
 
-In other words, **Schemagic is all about data**.
+In other words, **schemagic is all about data**.
 
 
 How to Contribute
