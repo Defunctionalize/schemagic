@@ -1,19 +1,14 @@
 =========================
 Schemagic / Schemagic.web
 =========================
-
-Remove the Guesswork from Data Processing
-=========================================
-
 .. image:: https://img.shields.io/badge/pypi-v0.7.0-blue.svg
     :target: https://pypi.python.org/pypi/schemagic
-
-
 .. image:: https://img.shields.io/badge/ReadTheDocs-latest-red.svg
     :target: http://schemagic.readthedocs.io/en/latest/schemagic.html
-
 .. image:: https://travis-ci.org/Mechrophile/schemagic.svg?branch=master
     :target: https://travis-ci.org/Mechrophile/schemagic/
+Remove the Guesswork from Data Processing
+=========================================
 
 
 Schemagic is a rather utilitarian re-imagining of the wonderful and powerful clojure library `Schema <https://github.com/plumatic/schema>`_!
