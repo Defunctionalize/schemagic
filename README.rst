@@ -7,7 +7,6 @@ Schemagic / Schemagic.web:  [some kind of tagline!]
 
 .. image:: https://img.shields.io/badge/ReadTheDocs-latest-red.svg
     :target: http://schemagic.readthedocs.io/en/latest/schemagic.html
-:target: http://schemagic.readthedocs.io/en/latest/schemagic.html
 
 .. image:: https://travis-ci.org/Mechrophile/schemagic.svg?branch=master
     :target: https://travis-ci.org/Mechrophile/schemagic/
