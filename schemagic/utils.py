@@ -35,6 +35,7 @@ def multiple_dispatch_fn(dispatch_map, default=None):
     is applicable.
 
     For example,
+
     >>> add_if_ints_multiply_if_floats = multiple_dispatch_fn(
     ... {lambda *nums: all(isinstance(num, int) for num in nums): operator.add,
     ...  lambda *nums: all(isinstance(num, float) for num in nums): operator.mul})
@@ -45,6 +46,7 @@ def multiple_dispatch_fn(dispatch_map, default=None):
 
     You can also provide a default implementation to use if none of the predicates match.
     For example,
+
     >>> add_if_ints_else_return_unmodified = multiple_dispatch_fn(
     ... {lambda *nums: all(isinstance(num, int) for num in nums): operator.add},
     ...  default=lambda *items: items)

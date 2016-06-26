@@ -1,7 +1,7 @@
 Schemagic / Schemagic.web:  [some kind of tagline!]
-==========================================================
+===================================================
 
-.. image:: https://img.shields.io/badge/pypi-v0.3.26-green.svg
+.. image:: https://img.shields.io/badge/pypi-v0.7.0-green.svg
     :target: https://pypi.python.org/pypi/schemagic
 
 Schemagic is a rather utilitarian re-imagining of the wonderful and powerful clojure library `Schema <https://github.com/plumatic/schema>`_!

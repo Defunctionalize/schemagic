@@ -1,3 +1,7 @@
+"""
+NOTE EVERYTHING IN THIS FILE IS EXPERIMENTAL.  DO NOT EXPECT STABILITY OR USABILITY IN CURRENT FORM
+"""
+
 from functools import partial, wraps
 
 from schemagic.core import validate_against_schema, validator
@@ -7,9 +11,7 @@ ALWAYS = lambda: True
 WHEN_DEBUGGING = lambda: __debug__
 IDENTITY = lambda x: x
 
-"""
-NOTE EVERYTHING IN THIS FILE IS EXPERIMENTAL.  DO NOT EXPECT STABILITY OR USABILITY IN CURRENT FORM
-"""
+
 
 def validated(validation_predicate=None, coerce_data=True, input_schema=None, output_schema=None, fn=None):
     if fn is None:
