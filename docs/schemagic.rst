@@ -20,14 +20,6 @@ schemagic.func module
     :undoc-members:
     :show-inheritance:
 
-schemagic.scratch module
-------------------------
-
-.. automodule:: schemagic.scratch
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 schemagic.utils module
 ----------------------
 
