@@ -3,7 +3,7 @@ from functools import partial
 
 from schemagic.utils import merge_with, multiple_dispatch_fn
 
-WHEN_DEBUGGING = lambda: __debug__
+_WHEN_DEBUGGING = lambda: __debug__
 
 def validate_map_template(schema, value):
     """Ensures all the keys and values of the given data are valid with the schema's key and value validators
@@ -56,16 +56,16 @@ def validate_strict_sequence(schema, value):
         raise ValueError("sequence has a different number of elements than its schema prescribes.  value: {0}, schema: {1}".format(value, schema))
     return map(lambda sub_schema, sub_value: validate_against_schema(sub_schema, sub_value), schema, value)
 
-is_map_template = lambda schema: isinstance(schema, collections.MutableMapping) and len(schema.items()) is 1 and not isinstance(schema.keys()[0], str)
-is_keyed_mapping = lambda schema: isinstance(schema, collections.MutableMapping) and not is_map_template(schema)
-is_sequence_template = lambda schema: isinstance(schema, collections.Sequence) and len(schema) is 1
-is_strict_sequence = lambda schema: isinstance(schema, collections.Sequence) and 1 < len(schema)
+_is_map_template = lambda schema: isinstance(schema, collections.MutableMapping) and len(schema.items()) is 1 and not isinstance(schema.keys()[0], str)
+_is_keyed_mapping = lambda schema: isinstance(schema, collections.MutableMapping) and not _is_map_template(schema)
+_is_sequence_template = lambda schema: isinstance(schema, collections.Sequence) and len(schema) is 1
+_is_strict_sequence = lambda schema: isinstance(schema, collections.Sequence) and 1 < len(schema)
 
 _validate_against_schema = multiple_dispatch_fn({
-    lambda schema, value: is_sequence_template(schema): validate_sequence_template,
-    lambda schema, value: is_strict_sequence(schema): validate_strict_sequence,
-    lambda schema, value: is_map_template(schema): validate_map_template,
-    lambda schema, value: is_keyed_mapping(schema): validate_keyed_mapping},
+    lambda schema, value: _is_sequence_template(schema): validate_sequence_template,
+    lambda schema, value: _is_strict_sequence(schema): validate_strict_sequence,
+    lambda schema, value: _is_map_template(schema): validate_map_template,
+    lambda schema, value: _is_keyed_mapping(schema): validate_keyed_mapping},
     default=lambda schema, value: schema(value))
 validate_against_schema = lambda schema, value: _validate_against_schema(schema, value)
 validate_against_schema.__doc__ = \
@@ -133,7 +133,7 @@ def validator(schema, subject_name_str, validation_predicate=None, coerce_data=F
     """
     if data is None:
         return partial(validator, schema, subject_name_str, validation_predicate, coerce_data)
-    validation_predicate = validation_predicate or WHEN_DEBUGGING
+    validation_predicate = validation_predicate or _WHEN_DEBUGGING
     if not validation_predicate():
         return data
     try:

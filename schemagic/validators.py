@@ -36,27 +36,26 @@ formatted_string = lambda str_format, **kwargs: predicate_validator(
                  coercer=str,
                  message="string not of expected format: expected: {0}".format(format)),
             kwargs))
-formatted_string.__name__ = "formatted_string"
-formatted_string.__doc__= """Stringifies the data, then matches it against the supplied regex string.  Valid if match is returned"""
+"""Stringifies the data, then matches it against the supplied regex string.  Valid if match is returned"""
 
+#: ``formatted_string(r'\d+\-\d+\-\d+')``: checks to see if the data is of the type returned by stringifying a datetime.date object
 date_string = formatted_string(r'\d+\-\d+\-\d+')
-date_string.__doc__ = """checks to see if the data is of the type returned by stringifying a datetime.date object"""
 
+#: ``formatted_string(r'\d+\-\d+\-\d+ \d+:\d+:\d+\.\d+')``: checks to see if the data is of the type returned by stringifying a datetime.datetime object
 datetime_string = formatted_string(r'\d+\-\d+\-\d+ \d+:\d+:\d+\.\d+')
-date_string.__doc__ =  """checks to see if the data is of the type returned by stringifying a datetime.datetime object"""
 
-
+#: ``predicate_validator``: Usually composed with or_, checks to see if the data is the value None
 null = predicate_validator(lambda val: val is None, name="null")
-date_string.__doc__ =  """Usually composed with or_, checks to see if the data is the value None"""
 
 or_ = lambda *schemata: predicate_validator(
     lambda val: any(validate_against_schema(schema, val) for schema in schemata),
     name="any of schema's {0}".format(schemata),
 )
-or_.__doc__ = """checks to see if the data is valid with any of the given data definitions"""
+"""checks to see if the data is valid with any of the given data definitions"""
+
 
 enum = lambda *possible_vals: predicate_validator(
     lambda val: val in possible_vals,
     name="enumeration of allowable values: {0}".format(possible_vals),
 )
-enum.__doc__ = """checks to see if the data is one of the provided values"""
+"""checks to see if the data is one of the provided values"""
