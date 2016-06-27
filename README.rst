@@ -92,8 +92,8 @@ Schema checking is quite flexible, and all checks are done recursively.  Lets go
 
 .. code-block:: python
 
-    >>> string_to_int_map = {"name":str, "age": int}
-    >>> schemagic.validate_against_schema(string_to_int_map, {"name": "Tyler", "age": 400})
+    >>> friend_record = {"name":str, "age": int}
+    >>> schemagic.validate_against_schema(friend_record, {"name": "Tyler", "age": 400})
     {'name': 'Tyler', 'age': 400}
 
 **Sequence Template**:
