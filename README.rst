@@ -1,8 +1,15 @@
-Schemagic / Schemagic.web:  [some kind of tagline!]
-===================================================
-
-.. image:: https://img.shields.io/badge/pypi-v0.7.0-green.svg
+=========================
+Schemagic / Schemagic.web
+=========================
+.. image:: https://img.shields.io/badge/pypi-v0.8.0-blue.svg
     :target: https://pypi.python.org/pypi/schemagic
+.. image:: https://img.shields.io/badge/ReadTheDocs-latest-red.svg
+    :target: http://schemagic.readthedocs.io/en/latest/schemagic.html
+.. image:: https://travis-ci.org/Mechrophile/schemagic.svg?branch=master
+    :target: https://travis-ci.org/Mechrophile/schemagic/
+Remove the Guesswork from Data Processing
+=========================================
+
 
 Schemagic is a rather utilitarian re-imagining of the wonderful and powerful clojure library `Schema <https://github.com/plumatic/schema>`_!
 Schemagic.web is what programmers do when they hate web programming, but want to make their programs accessible to the web.
@@ -18,25 +25,30 @@ To install Schemagic, simply:
 
     $ pip install schemagic
 
+What is schemagic?
+------------------
 
-How to Contribute
------------------
+One of the difficulties with large scale, multi-team python efforts is the overhead of understanding the kind of data
+(e.g., list of strings, nested map from long to string to double) that a function or a webservice expects and returns.
+Python lacks static typing and, moreover, static typing is insufficient to capture and validate custom business types,
+which ultimately is what holds back teams from rapidly iterating on each others work.[1]
 
-#. What the codebase needs primarily is a large suite of validation functions, such as those found in validators.py
-#. Additional support for Schemagic.web would also be welcome.  Currently it only supports Flask.
-#. Fork `the repository`_ on GitHub to start making your changes to the **master** branch (or branch off of it).
-#. Send a pull request and email `the maintainer`_.  Do me a favor and tag your subject with [Schemagic] :)
+To you, the programmer, schemagic is all about three things:
 
-.. _`the repository`: https://github.com/TJTolton/schemagic
-.. _`the maintainer`: tjtolton@gmail.com
+* data **description** using the simplest python data structures and an easily extensible syntax
+* data **communication** between teams, enhancing documentation, giving feedback when something went wrong.
+* data **validation** based on descriptions of data that have been documented and communicated.
+  Comments describing the shape of data are insufficient in real world applications.
+  Unless the documentation is backed up by programmatic verification, the documentation gets initially ignored,
+  and ultimately falls behind the actual program behavior.
+
+In other words, **schemagic is all about data**.
 
 
-Documentation
--------------
+Getting Acquainted with Schemagic
+---------------------------------
 
-For now, I'm simply going to put all the documentation here in the README.
-
-But enough talk.  Lets build a schema and start using it.
+Lets build a schema and start using it.
 
 .. code-block:: python
 
@@ -80,9 +92,9 @@ Schema checking is quite flexible, and all checks are done recursively.  Lets go
 
 .. code-block:: python
 
-    >>> string_to_int_map = {str:int}
-    >>> schemagic.validate_against_schema(string_to_int_map, {"hello": 5, "friends": 6})
-    {'friends': 6, 'hello': 5}
+    >>> friend_record = {"name":str, "age": int}
+    >>> schemagic.validate_against_schema(friend_record, {"name": "Tyler", "age": 400})
+    {'name': 'Tyler', 'age': 400}
 
 **Sequence Template**:
 *if you provide a sequence containing only one item as a schema*
@@ -149,7 +161,6 @@ Schemagic.validator Usage
 -------------------------
 
 **Use the Schemagic.validator for increased message clarity and control**:
-*implemented using the "Function Validator"*
 
 .. code-block:: python
 
@@ -178,7 +189,7 @@ Schemagic.validator Usage
 
 
 **Coerce data as it is validated**:
-*note: validate against schema*
+*note: validate_against_schema will do this automatically.  see docs on validator.*
 
 .. code-block:: python
 
@@ -238,28 +249,9 @@ Lets walk through how we might set up this webservice in flask:
 .. code-block:: python
 
     from flask import Flask, json
+    from fibonacci import fib # assuming we implemented the function in fibonnaci.py
 
     app = Flask(__name__)
-
-    def memo(fn):
-        _cache = {}
-        def _f(*args):
-            try:
-                return _cache[args]
-            except KeyError:
-                _cache[args] = result = fn(*args)
-                return result
-            except TypeError:
-                return fn(*args)
-        _f.cache = _cache
-        return _f
-
-    @memo
-    def fib(n):
-        if n == 0 or n == 1:
-            return 1
-        else:
-            return fib(n - 1) + fib(n - 2)
 
     @app.route("/fibonacci/<index>")
     def web_fib_endpoint(index):
@@ -287,31 +279,11 @@ Lets see an adapted version of this code using schemagic.web utilities.
 .. code-block:: python
 
     from flask.app import Flask
+    from fibonacci import fib # assuming we implemented the function in fibonnaci.py
     from schemagic.web import service_registry
 
     app = Flask(__name__)
     register_fibonnacci_services = service_registry(app)
-
-
-    def memo(fn):
-        _cache = {}
-        def _f(*args):
-            try:
-                return _cache[args]
-            except KeyError:
-                _cache[args] = result = fn(*args)
-                return result
-            except TypeError:
-                return fn(*args)
-        _f.cache = _cache
-        return _f
-
-    @memo
-    def fib(n):
-        if n == 0 or n == 1:
-            return 1
-        else:
-            return fib(n - 1) + fib(n - 2)
 
     register_fibonnacci_services(
         dict(rule="/fibonacci",
@@ -330,5 +302,23 @@ Important notes:
 
 #. The webservices all uniformally use POST requests to transmit data.  The data supplied to the endpoints comes from the payload of the request.
 #. Regarding the above example, there are alternate ways of describing the input to fib().  We could have said "input_schema=int", which would imply that the POST request payload should be an int, unwrapped.
-    the notation used in the example requires the POST request to provide its data via keyword.
+   the notation used in the example requires the POST request to provide its data via keyword.
 
+How to Contribute
+-----------------
+#. This codebase uses the popular `git flow <http://nvie.com/posts/a-successful-git-branching-model/>`_ model for version control
+#. Fork `the repository`_ and make a branch off of develop, (ideally using the naming convention feature/your-feature)
+#. When you've finished your feature, make a pull request back into develop.
+#. Once you've made your pull request, email `the maintainer`_ and let me know!
+#. Finally, if you ever have any questions about how or what to contribute, feel free to send an email!
+
+.. _`the repository`: https://github.com/TJTolton/schemagic
+.. _`the maintainer`: tjtolton@gmail.com
+
+Documentation
+=============
+
+This project autogenerates it's documentation using sphinx and hosts it using readthedocs.  It can be viewed `here <http://schemagic.readthedocs.io/en/latest/schemagic.html>`_
+
+
+.. [1] Please note: this description is adapted from the excellently phrased introduction to the `prismatic/schema <https://github.com/plumatic/schema>`_ clojure library this project was based on
