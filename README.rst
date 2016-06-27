@@ -165,7 +165,7 @@ Schemagic.validator Usage
 
     >>> __env__ = None
     >>> WHEN_IN_DEV_ENV = lambda: __env__ == "DEV"
-    >>> validate_in_dev = partial(schemagic.validator, validation_predicate=WHEN_IN_DEV)
+    >>> validate_in_dev = partial(schemagic.validator, validation_predicate=WHEN_IN_DEV_ENV)
     >>> list_of_ints_validator = validate_in_dev([int], "integer list")
     >>> __env__ = "DEV"
     >>> list_of_ints_validator([1, "not an int", 3])
