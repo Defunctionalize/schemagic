@@ -102,7 +102,7 @@ Schema checking is quite flexible, and all checks are done recursively.  Lets go
 .. code-block:: python
 
     >>> list_of_ints = [int]
-    >>> schemagic.validate_against_schema(string_to_int_map, [1, 2, 3, 4])
+    >>> schemagic.validate_against_schema(list_of_ints, [1, 2, 3, 4])
     [1, 2, 3, 4]
 
 **Strict Sequence**:
@@ -111,7 +111,7 @@ Schema checking is quite flexible, and all checks are done recursively.  Lets go
 .. code-block:: python
 
     >>> list_with_3_items_int_str_and_intstrmap = [int, str, {int: str}]
-    >>> schemagic.validate_against_schema(string_to_int_map, [1, "hello", {5: "friends", 12: "and", 90: "world"}])
+    >>> schemagic.validate_against_schema(list_with_3_items_int_str_and_intstrmap, [1, "hello", {5: "friends", 12: "and", 90: "world"}])
     [1, "hello", {5: "friends", 12: "and", 90: "world"}]
 
 **Validation Function**:
@@ -141,8 +141,8 @@ Schema checking is quite flexible, and all checks are done recursively.  Lets go
     ...        return data
     ...     return _validator
     >>> event = {
-    ...    "event_type": enum("PRODUCTION", "DEVELOPMENT")
-    ...    "event_name": str,
+    ...    "event_type": enum("PRODUCTION", "DEVELOPMENT"),
+    ...    "event_name": str
     ...}
     >>> dispatch_request = {
     ...    "events": [event],
