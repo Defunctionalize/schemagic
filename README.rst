@@ -92,9 +92,9 @@ Schema checking is quite flexible, and all checks are done recursively.  Lets go
 
 .. code-block:: python
 
-    >>> string_to_int_map = {str:int}
-    >>> schemagic.validate_against_schema(string_to_int_map, {"hello": 5, "friends": 6})
-    {'friends': 6, 'hello': 5}
+    >>> string_to_int_map = {"name":str, "age": int}
+    >>> schemagic.validate_against_schema(string_to_int_map, {"name": "Tyler", "age": 400})
+    {'name': 'Tyler', 'age': 400}
 
 **Sequence Template**:
 *if you provide a sequence containing only one item as a schema*
@@ -161,7 +161,6 @@ Schemagic.validator Usage
 -------------------------
 
 **Use the Schemagic.validator for increased message clarity and control**:
-*implemented using the "Function Validator"*
 
 .. code-block:: python
 
@@ -190,7 +189,7 @@ Schemagic.validator Usage
 
 
 **Coerce data as it is validated**:
-*note: validate against schema*
+*note: validate_against_schema will do this automatically.  see docs on validator.*
 
 .. code-block:: python
 
