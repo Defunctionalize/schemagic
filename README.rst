@@ -90,7 +90,7 @@ Schema checking is quite flexible, and all checks are done recursively.  Lets go
 .. code-block:: python
 
     >>> list_of_ints = [int]
-    >>> schemagic.validate_against_schema(string_to_int_map, [1, 2, 3, 4])
+    >>> schemagic.validate_against_schema(list_of_ints, [1, 2, 3, 4])
     [1, 2, 3, 4]
 
 **Strict Sequence**:
