@@ -129,8 +129,8 @@ Schema checking is quite flexible, and all checks are done recursively.  Lets go
     ...        return data
     ...     return _validator
     >>> event = {
-    ...    "event_type": enum("PRODUCTION", "DEVELOPMENT")
-    ...    "event_name": str,
+    ...    "event_type": enum("PRODUCTION", "DEVELOPMENT"),
+    ...    "event_name": str
     ...}
     >>> dispatch_request = {
     ...    "events": [event],
