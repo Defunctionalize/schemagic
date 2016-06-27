@@ -6,3 +6,4 @@ schemagic.egg-info/
 schemagic/scratch.py
 does-it-work/
 schemagic/__pycache__/
+/schemagic/schemagic_stuff.py
