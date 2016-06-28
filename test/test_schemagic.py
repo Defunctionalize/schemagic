@@ -94,4 +94,6 @@ def run_tests(test_cases):
 
 class SchemagicTests(TestCase):
     def test_all_test_cases_passing(self):
-        self.assertTrue(all(itertools.chain.from_iterable(run_tests(test_cases).values())))
+        test_results = run_tests(test_cases)
+        if not all(result is True for result in itertools.chain.from_iterable(test_results.values())):
+            self.fail(test_results)
