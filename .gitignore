@@ -13,3 +13,4 @@ test/__pycache__/
 .tox/
 .eggs/
 docs/_build
+/schemagic/schemagic_stuff.py
