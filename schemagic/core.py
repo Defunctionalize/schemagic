@@ -1,6 +1,8 @@
 import collections
 from functools import partial
 
+import itertools
+
 from schemagic.utils import merge_with, multiple_dispatch_fn
 
 _WHEN_DEBUGGING = lambda: __debug__
@@ -45,7 +47,7 @@ def validate_sequence_template(schema, value):
     :param value: Any data which will be checked to make sure it matches the prescribed pattern
     :return: The data after it has been run through its validators.
     """
-    return map(schema[0], value)
+    return map(validate_against_schema, itertools.repeat(schema[0], len(value)), value)
 
 
 def validate_strict_sequence(schema, value):
