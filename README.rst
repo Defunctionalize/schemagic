@@ -1,7 +1,7 @@
 =========================
 Schemagic / Schemagic.web
 =========================
-.. image:: https://img.shields.io/badge/pypi-v0.8.0-blue.svg
+.. image:: https://img.shields.io/badge/pypi-v0.8.9-blue.svg
     :target: https://pypi.python.org/pypi/schemagic
 .. image:: https://img.shields.io/badge/ReadTheDocs-latest-red.svg
     :target: http://schemagic.readthedocs.io/en/latest/schemagic.html
