@@ -82,6 +82,12 @@ def separate_dict(initial_dict, *keys_to_remove):
 
     return functools.reduce(remove_key, part2.keys(), part1), part2
 
+def is_string(obj):
+    try:
+        return isinstance(obj, basestring)
+    except NameError:
+        return isinstance(obj, str)
+
 @contextmanager
 def assert_raises(expected_error=None):
     try:

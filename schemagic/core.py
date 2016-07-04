@@ -1,9 +1,10 @@
 import collections
 from functools import partial
+import types
 
 import itertools
 
-from schemagic.utils import merge_with, multiple_dispatch_fn
+from schemagic.utils import merge_with, multiple_dispatch_fn, is_string
 
 _WHEN_DEBUGGING = lambda: __debug__
 
@@ -17,7 +18,7 @@ def validate_map_template(schema, value):
     :param value: Any data which will be checked to make sure it matches the prescribed pattern
     :return: The data after it has been run through its validators.
     """
-    key_schema, value_schema = schema.items()[0]
+    key_schema, value_schema = list(schema.items())[0]
     validate_key_val_pair = lambda key, val: (
     validate_against_schema(key_schema, key), validate_against_schema(value_schema, val))
     return dict(map(validate_key_val_pair, value.keys(), value.values()))
@@ -66,8 +67,7 @@ def validate_strict_sequence(schema, value):
     return map(lambda sub_schema, sub_value: validate_against_schema(sub_schema, sub_value), schema, value)
 
 
-_is_map_template = lambda schema: isinstance(schema, collections.MutableMapping) and len(
-    schema.items()) is 1 and not isinstance(schema.keys()[0], str)
+_is_map_template = lambda schema: isinstance(schema, collections.MutableMapping) and len(schema.items()) is 1 and not is_string(list(schema.keys())[0])
 _is_keyed_mapping = lambda schema: isinstance(schema, collections.MutableMapping) and not _is_map_template(schema)
 _is_sequence_template = lambda schema: isinstance(schema, collections.Sequence) and len(schema) is 1
 _is_strict_sequence = lambda schema: isinstance(schema, collections.Sequence) and 1 < len(schema)

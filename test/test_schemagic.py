@@ -17,6 +17,7 @@ test_cases = {
         "returning unmodified list of ints when validating [int] template sequence":
             dict(schema=[int],
                  value=[5, 6],
+                 post_process=list,
                  result=[5, 6]),
         "validating with str function with correct data":
             dict(schema=str,
@@ -28,15 +29,17 @@ test_cases = {
                  result=ValueError),
         "validating map template with correct data":
             dict(schema={int: str},
-                 value= {1: "hello", 2: "world"},
-                 result= {1: "hello", 2: "world"}),
+                 value={1: "hello", 2: "world"},
+                 result={1: "hello", 2: "world"}),
         "validating strict sequence with good data":
             dict(schema=[int, int],
                  value=[1, 2],
+                 post_process=list,
                  result=[1, 2]),
         "validating strict sequence with bad data":
             dict(schema=[int, int],
                  value=[1],
+                 post_process=list,
                  result=ValueError),
     },
     formatted_string(r"\d+"):{
@@ -86,9 +89,9 @@ def run_tests(test_cases):
     test_results = defaultdict(list)
     for test_fn, test_definitions in test_cases.items():
         for test_motivation, test_definition in test_definitions.items():
-            split_out_test_parameters = separate_dict(test_definition, "result", "test_motivation")
-            test_kwargs, expected_result = split_out_test_parameters[0], split_out_test_parameters[1]["result"]
-            test_result = capture_errors(lambda: test_fn(**test_kwargs))
+            split_out_test_parameters = separate_dict(test_definition, "result", "post_process")
+            test_kwargs, expected_result, post_process = split_out_test_parameters[0], split_out_test_parameters[1]["result"], split_out_test_parameters[1].get("post_process", lambda x: x)
+            test_result = capture_errors(lambda: post_process(test_fn(**test_kwargs)))
             test_results[test_fn.__name__].append(test_result == expected_result or "Not {0} as expected. expected: {1} got: {2}".format(test_motivation, expected_result, test_result))
     return test_results
 
