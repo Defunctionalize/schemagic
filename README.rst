@@ -1,7 +1,7 @@
 =========================
 Schemagic / Schemagic.web
 =========================
-.. image:: https://img.shields.io/badge/pypi-v0.8.0-blue.svg
+.. image:: https://img.shields.io/badge/pypi-v0.8.9-blue.svg
     :target: https://pypi.python.org/pypi/schemagic
 .. image:: https://img.shields.io/badge/ReadTheDocs-latest-red.svg
     :target: http://schemagic.readthedocs.io/en/latest/schemagic.html
@@ -102,7 +102,7 @@ Schema checking is quite flexible, and all checks are done recursively.  Lets go
 .. code-block:: python
 
     >>> list_of_ints = [int]
-    >>> schemagic.validate_against_schema(string_to_int_map, [1, 2, 3, 4])
+    >>> schemagic.validate_against_schema(list_of_ints, [1, 2, 3, 4])
     [1, 2, 3, 4]
 
 **Strict Sequence**:
@@ -111,7 +111,7 @@ Schema checking is quite flexible, and all checks are done recursively.  Lets go
 .. code-block:: python
 
     >>> list_with_3_items_int_str_and_intstrmap = [int, str, {int: str}]
-    >>> schemagic.validate_against_schema(string_to_int_map, [1, "hello", {5: "friends", 12: "and", 90: "world"}])
+    >>> schemagic.validate_against_schema(list_with_3_items_int_str_and_intstrmap, [1, "hello", {5: "friends", 12: "and", 90: "world"}])
     [1, "hello", {5: "friends", 12: "and", 90: "world"}]
 
 **Validation Function**:
@@ -141,8 +141,8 @@ Schema checking is quite flexible, and all checks are done recursively.  Lets go
     ...        return data
     ...     return _validator
     >>> event = {
-    ...    "event_type": enum("PRODUCTION", "DEVELOPMENT")
-    ...    "event_name": str,
+    ...    "event_type": enum("PRODUCTION", "DEVELOPMENT"),
+    ...    "event_name": str
     ...}
     >>> dispatch_request = {
     ...    "events": [event],
@@ -176,7 +176,7 @@ Schemagic.validator Usage
 
     >>> __env__ = None
     >>> WHEN_IN_DEV_ENV = lambda: __env__ == "DEV"
-    >>> validate_in_dev = partial(schemagic.validator, validation_predicate=WHEN_IN_DEV)
+    >>> validate_in_dev = partial(schemagic.validator, validation_predicate=WHEN_IN_DEV_ENV)
     >>> list_of_ints_validator = validate_in_dev([int], "integer list")
     >>> __env__ = "DEV"
     >>> list_of_ints_validator([1, "not an int", 3])

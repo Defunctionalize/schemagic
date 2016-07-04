@@ -1,9 +1,13 @@
 import collections
 from functools import partial
+import types
 
-from schemagic.utils import merge_with, multiple_dispatch_fn
+import itertools
+
+from schemagic.utils import merge_with, multiple_dispatch_fn, is_string
 
 _WHEN_DEBUGGING = lambda: __debug__
+
 
 def validate_map_template(schema, value):
     """Ensures all the keys and values of the given data are valid with the schema's key and value validators
@@ -14,9 +18,11 @@ def validate_map_template(schema, value):
     :param value: Any data which will be checked to make sure it matches the prescribed pattern
     :return: The data after it has been run through its validators.
     """
-    key_schema, value_schema = schema.items()[0]
-    validate_key_val_pair = lambda key, val: (validate_against_schema(key_schema, key), validate_against_schema(value_schema, val))
+    key_schema, value_schema = list(schema.items())[0]
+    validate_key_val_pair = lambda key, val: (
+    validate_against_schema(key_schema, key), validate_against_schema(value_schema, val))
     return dict(map(validate_key_val_pair, value.keys(), value.values()))
+
 
 def validate_keyed_mapping(schema, value):
     """Ensures all required keys are present, and that their corresponding value matches with the schema's prescription
@@ -32,6 +38,7 @@ def validate_keyed_mapping(schema, value):
         raise ValueError("Missing keys {0} for value {1}".format(missing_keys, value))
     return merge_with(validate_against_schema, schema, value)
 
+
 def validate_sequence_template(schema, value):
     """Ensures each item of the value is of the patterns specified by the schema['s first element].
 
@@ -41,7 +48,8 @@ def validate_sequence_template(schema, value):
     :param value: Any data which will be checked to make sure it matches the prescribed pattern
     :return: The data after it has been run through its validators.
     """
-    return map(schema[0], value)
+    return map(validate_against_schema, itertools.repeat(schema[0], len(value)), value)
+
 
 def validate_strict_sequence(schema, value):
     """Ensures that the elements of the value are in the same order and valid with the same definitions in the schema.
@@ -53,10 +61,13 @@ def validate_strict_sequence(schema, value):
     :return: The data after it has been run through its validators.
     """
     if not len(schema) == len(value):
-        raise ValueError("sequence has a different number of elements than its schema prescribes.  value: {0}, schema: {1}".format(value, schema))
+        raise ValueError(
+            "sequence has a different number of elements than its schema prescribes.  value: {0}, schema: {1}".format(
+                value, schema))
     return map(lambda sub_schema, sub_value: validate_against_schema(sub_schema, sub_value), schema, value)
 
-_is_map_template = lambda schema: isinstance(schema, collections.MutableMapping) and len(schema.items()) is 1 and not isinstance(schema.keys()[0], str)
+
+_is_map_template = lambda schema: isinstance(schema, collections.MutableMapping) and len(schema.items()) is 1 and not is_string(list(schema.keys())[0])
 _is_keyed_mapping = lambda schema: isinstance(schema, collections.MutableMapping) and not _is_map_template(schema)
 _is_sequence_template = lambda schema: isinstance(schema, collections.Sequence) and len(schema) is 1
 _is_strict_sequence = lambda schema: isinstance(schema, collections.Sequence) and 1 < len(schema)
@@ -103,7 +114,6 @@ validate_against_schema.__doc__ = \
     """
 
 
-
 def validator(schema, subject_name_str, validation_predicate=None, coerce_data=False, data=None):
     """Creates a validation function which conditionally applies validation and coercion to data
 
@@ -146,4 +156,5 @@ def validator(schema, subject_name_str, validation_predicate=None, coerce_data=F
             "value": data,
             "schema": schema
         }
-        raise ValueError("Bad value provided for {subject}. - error: {error} schema: {schema} value: {value}".format(**message_details))
+        raise ValueError("Bad value provided for {subject}. - error: {error} schema: {schema} value: {value}".format(
+            **message_details))
