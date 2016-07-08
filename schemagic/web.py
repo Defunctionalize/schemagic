@@ -1,5 +1,5 @@
 import functools
-import json
+import simplejson as json
 from functools import partial, update_wrapper
 import collections
 
@@ -7,14 +7,14 @@ from flask.globals import request
 from flask.wrappers import Response
 
 from schemagic.core import validate_against_schema, validator
-from schemagic.utils import multiple_dispatch_fn
+from schemagic.utils import multiple_dispatch_fn, is_string
 
 _ALWAYS = lambda: True
 _WHEN_DEBUGGING = lambda: __debug__
 _IDENTITY = lambda x: x
 
 _dispatch_to_fn = multiple_dispatch_fn({
-    lambda fn, args: isinstance(args, basestring): lambda fn, arg_list: fn(arg_list),
+    lambda fn, args: is_string(args): lambda fn, arg_list: fn(arg_list),
     lambda fn, args: isinstance(args, collections.Sequence): lambda fn, arg_list: fn(*arg_list),
     lambda fn, args: isinstance(args, collections.MutableMapping): lambda fn, arg_list: fn(**arg_list)},
     default=lambda fn, arg_list: fn(arg_list)
@@ -126,6 +126,7 @@ def service_route(service, validation_pred=None, coerce_data=True, rule=None, in
 
     service.add_url_rule(
         rule=rule,
+        endpoint=fn.__name__ if hasattr(fn, "__name__") else rule,
         view_func=update_wrapper(lambda: webservice_fn(fn, input_validator, output_validator), fn),
         methods=['POST']
     )
@@ -144,4 +145,4 @@ def service_registry(service, validation_pred=None, coerce_data=True, *service_d
     """
     if not service_definitions:
         return update_wrapper(partial(service_registry, service, validation_pred, coerce_data), service_registry)
-    map(lambda definition: service_route(service, validation_pred, coerce_data, **definition), service_definitions)
+    list(map(lambda definition: service_route(service, validation_pred, coerce_data, **definition), service_definitions))

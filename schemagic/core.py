@@ -48,7 +48,7 @@ def validate_sequence_template(schema, value):
     :param value: Any data which will be checked to make sure it matches the prescribed pattern
     :return: The data after it has been run through its validators.
     """
-    return map(validate_against_schema, itertools.repeat(schema[0], len(value)), value)
+    return list(map(validate_against_schema, itertools.repeat(schema[0], len(value)), value))
 
 
 def validate_strict_sequence(schema, value):
@@ -64,7 +64,7 @@ def validate_strict_sequence(schema, value):
         raise ValueError(
             "sequence has a different number of elements than its schema prescribes.  value: {0}, schema: {1}".format(
                 value, schema))
-    return map(lambda sub_schema, sub_value: validate_against_schema(sub_schema, sub_value), schema, value)
+    return list(map(lambda sub_schema, sub_value: validate_against_schema(sub_schema, sub_value), schema, value))
 
 
 _is_map_template = lambda schema: isinstance(schema, collections.MutableMapping) and len(schema.items()) is 1 and not is_string(list(schema.keys())[0])

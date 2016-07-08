@@ -128,4 +128,4 @@ class SchemagicWebTest(TestCase):
 
         good_request = self.test_client.post("/new-route", data="[1, 2]")
         self.assertEqual(good_request._status_code, 200)
-        self.assertEqual(good_request.data, "3")
+        self.assertEqual(int(good_request.data), 3)
