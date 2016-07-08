@@ -64,7 +64,7 @@ def validate_strict_sequence(schema, value):
         raise ValueError(
             "sequence has a different number of elements than its schema prescribes.  value: {0}, schema: {1}".format(
                 value, schema))
-    return list(map(lambda sub_schema, sub_value: validate_against_schema(sub_schema, sub_value), schema, value))
+    return list(map(validate_against_schema, schema, value))
 
 
 _is_map_template = lambda schema: isinstance(schema, collections.MutableMapping) and len(schema.items()) is 1 and not is_string(list(schema.keys())[0])
