@@ -1,12 +1,13 @@
 from collections import defaultdict
 from pprint import pprint
 from unittest.case import TestCase
-
+from flask import Flask
 import itertools
 
 from schemagic.core import validate_against_schema
 from schemagic.utils import separate_dict
 from schemagic.validators import formatted_string, null, or_, enum
+from schemagic.web import service_registry
 
 test_cases = {
     validate_against_schema: {
@@ -100,3 +101,31 @@ class SchemagicTests(TestCase):
         test_results = run_tests(test_cases)
         if not all(result is True for result in itertools.chain.from_iterable(test_results.values())):
             self.fail(test_results)
+
+class SchemagicWebTest(TestCase):
+    def setUp(self):
+        test_app = Flask("testing")
+
+        test_app.config['TESTING'] = True
+        self.app = test_app
+        self.test_client = test_app.test_client()
+
+    def test_normal_flask_routing(self):
+        self.app.add_url_rule("/", view_func=lambda: "Hello")
+        self.test_client.get('/')
+
+    def test_service_registry(self):
+        register_test_services = service_registry(self.app)
+        register_test_services(
+            dict(rule="/new-route",
+                 input_schema=[int],
+                 output_schema=int,
+                 fn=lambda *args: sum(args)
+            )
+        )
+        bad_request = self.test_client.get("/new-route")
+        self.assertEqual(bad_request._status_code, 405)
+
+        good_request = self.test_client.post("/new-route", data="[1, 2]")
+        self.assertEqual(good_request._status_code, 200)
+        self.assertEqual(int(good_request.data), 3)
