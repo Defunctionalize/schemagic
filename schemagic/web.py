@@ -126,7 +126,6 @@ def service_route(service, validation_pred=None, coerce_data=True, rule=None, in
 
     service.add_url_rule(
         rule=rule,
-        endpoint=fn.__name__ if hasattr(fn, "__name__") else rule,
         view_func=update_wrapper(lambda: webservice_fn(fn, input_validator, output_validator), fn),
         methods=['POST']
     )
