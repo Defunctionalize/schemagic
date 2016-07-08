@@ -6,7 +6,7 @@ python:
 sudo: required
 
 install:
-    - "pip install -r requirements.txt"
-    - "pip install coverage"
+    - "sudo pip install -r requirements.txt"
+    - "sudo pip install coverage"
 script:
     - "coverage run --source=schemagic setup.py test"
