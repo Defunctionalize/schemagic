@@ -45,7 +45,7 @@ def _process_error(exception):
     :param exception: The Exception which occured as a part of processing the request
     :return: a flask Response that more specifically identifies the cause of the problem.
     """
-    if "input" in exception.message:
+    if "input" in exception.args[0]:
         return Response(
             response=exception,
             status=400)

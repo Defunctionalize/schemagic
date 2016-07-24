@@ -1,7 +1,7 @@
 =========================
 Schemagic / Schemagic.web
 =========================
-.. image:: https://img.shields.io/badge/pypi-v0.9.0-blue.svg
+.. image:: https://img.shields.io/badge/pypi-v0.9.1-blue.svg
     :target: https://pypi.python.org/pypi/schemagic
 .. image:: https://img.shields.io/badge/ReadTheDocs-latest-red.svg
     :target: http://schemagic.readthedocs.io/en/latest/schemagic.html
@@ -287,7 +287,7 @@ Lets see an adapted version of this code using schemagic.web utilities.
 
     register_fibonnacci_services(
         dict(rule="/fibonacci",
-             input_schema={"n" : int},
+             input_schema=int,
              output_schema=int,
              fn=fib))
 
@@ -298,11 +298,7 @@ There, now we simply *describe* our service with data.
 What is the service endpoint, what is the input, what is the output,
 and what is the implementation that delivers the contract defined herein.
 
-Important notes:
-
 #. The webservices all uniformally use POST requests to transmit data.  The data supplied to the endpoints comes from the payload of the request.
-#. Regarding the above example, there are alternate ways of describing the input to fib().  We could have said "input_schema=int", which would imply that the POST request payload should be an int, unwrapped.
-   the notation used in the example requires the POST request to provide its data via keyword.
 
 How to Contribute
 -----------------
